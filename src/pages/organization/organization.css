@@ -1,0 +1,14 @@
+#organization .current-orga a:before {
+  display: none;
+}
+
+#organization [data-ref="profil"] article {
+  background-color: #3993f3;
+  color: #fff;
+}
+#organization [data-ref="profil"] article a {
+  color: #fff!important;
+}
+#organization [data-ref="profil"] article a:before {
+  background-color: #fff;
+}

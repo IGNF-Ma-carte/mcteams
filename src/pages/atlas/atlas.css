@@ -1,0 +1,10 @@
+.mc-list-carte .filters .organization {
+  display: none;
+}
+
+.mc-list-carte .li-actions .edit {
+  display: none;
+}
+.mc-list-carte [data-user="owner"] .li-actions .edit {
+  display: inline-block;
+}

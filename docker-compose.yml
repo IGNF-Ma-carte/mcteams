@@ -1,0 +1,10 @@
+version: "3"
+
+services:
+  web:
+    image: macarte_moncompte:latest
+    build: .
+    container_name: macarte_moncompte
+    restart: always
+    ports: 
+      - 8086:8080

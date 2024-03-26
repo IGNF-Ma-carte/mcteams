@@ -1,0 +1,41 @@
+.mc-list ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+.mc-list ul li {
+  position: relative;
+  border-bottom: 1px solid #eee;
+  cursor: pointer;
+  padding: .5em 1em .5em 6.5em;
+}
+.mc-list ul li:hover {
+  background-color: #eee;
+}
+.mc-list ul li img {
+  position: absolute;
+  left: 3em;
+  max-height: 2em;
+  max-width: 5em;
+  margin-right: .5em;
+  transform: translateX(-50%);
+}
+
+.mc-list .role:before {
+  content: '\ea56';
+  font-family: font-ign;
+  position: absolute;
+  top: 50%;
+  right: 0;
+  transform: translateY(-50%);
+}
+.mc-list .role_owner:before {
+  content: '\e919';
+}
+.mc-list .role_editor:before {
+  content: '\ea48';
+}
+
+.mc-list li.selected {
+  background-color: #e1eefd!important;
+}

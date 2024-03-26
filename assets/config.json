@@ -1,0 +1,6 @@
+{
+  "server0": "https://qlf-macarte.ign.fr/",
+  "server": "https://localhost.ign.fr/macartegpf-api/",
+  "viewer0": "https://ignf-ma-carte.github.io/mcviewer/?map=$ID&$NOTITLE",
+  "viewer": "https://qlf-macarte.ign.fr/carte/$ID/$TITLE?$NOTITLE"
+}

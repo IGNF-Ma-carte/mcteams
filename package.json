@@ -1,0 +1,37 @@
+{
+  "name": "mcuser",
+  "version": "4.2.0",
+  "description": "Gestion du compte utilisateur",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "parcel ./index.html --dist-dir ./.dist",
+    "build": "parcel build ./index.html --no-source-maps --public-url . --dist-dir ./docs",
+    "lint": "eslint --fix ./src/**/*.js --ignore-path .lintignore || exit 0"
+  },
+  "devDependencies": {
+    "@parcel/transformer-inline-string": "^2.11.0",
+    "@parcel/transformer-sass": "^2.11.0",
+    "buffer": "^6.0.3",
+    "eslint": "^8.21.0",
+    "parcel": "^2.11.0",
+    "parcel-reporter-static-files-copy": "^1.5.3",
+    "process": "^0.11.10"
+  },
+  "dependencies": {
+    "mcutils": "github:IGNF-Ma-carte/mcutils"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/IGNF-Ma-carte/mcuser.git"
+  },
+  "author": "IGN",
+  "license": "GPL-3",
+  "bugs": {
+    "url": "https://github.com/IGNF-Ma-carte/mcuser/issues"
+  },
+  "homepage": "https://github.com/IGNF-Ma-carte/mcuser#mcuser",
+  "staticFiles": {
+    "staticPath": "./assets",
+    "watcherGlob": "**"
+  }
+}

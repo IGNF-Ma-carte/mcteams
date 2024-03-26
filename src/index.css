@@ -1,0 +1,13 @@
+body .connected {
+  display: none;
+}
+body[data-connected] .connected {
+  display: block;
+}
+body[data-connected] .disconnected {
+  display: none;
+}
+[data-role="content"] {
+  max-width: 130rem;
+  margin: auto;
+}

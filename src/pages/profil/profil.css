@@ -1,0 +1,32 @@
+#profil dl > * {
+  display: inline-block;
+  box-sizing: border-box;
+  margin: 0;
+  padding: .5rem;
+  vertical-align: top;
+}
+#profil dt {
+  font-weight: 700;
+  text-align: right;
+  width: 5em;
+}
+#profil dd {
+  display: inline-block;
+  width: calc(100% - 6em);
+}
+#profil dd img {
+  max-width: 20em;
+}
+
+.mc-user li > div {
+  display: inline-block;
+  padding: 0 .5rem;
+  box-sizing: border-box;
+}
+.mc-user .mc-name {
+  width: 60%;
+  font-weight: 700;
+}
+.mc-user .mc-role {
+  width: 30%;
+}
