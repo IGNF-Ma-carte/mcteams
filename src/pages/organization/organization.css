@@ -12,3 +12,30 @@
 #organization [data-ref="profil"] article a:before {
   background-color: #fff;
 }
+
+#organization .info {
+  display: grid;
+  grid-gap: 1rem;
+  margin-bottom: 5rem;;
+}
+#organization .info h2 {
+  font-size: 2rem;;
+}
+#organization .info p {
+  margin: 0;
+  font-weight: bold;
+}
+#organization .info p span {
+  font-weight: normal;
+}
+
+#organization .info > div {
+  background-color: #f4f6f8;
+  padding: 3rem;
+}
+#organization .info > div:first-child {
+  grid-column: 1 / 4;
+}
+#organization .info > div:last-child {
+  grid-column: 4 / 5;
+}

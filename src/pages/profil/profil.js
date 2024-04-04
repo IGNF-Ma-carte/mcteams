@@ -14,6 +14,7 @@ import profilDlg from './profil-dialog.html'
 import addMemberDlg from './addMember-dialog.html'
 import './profil.css'
 
+const content = document.querySelector('.connected')
 const page = pages.add('profil', html, document.querySelector('.connected'))
 
 organization.on('change', showOrganization)
@@ -94,7 +95,11 @@ function showOrganization() {
   page.querySelector('[data-attr="organization_name"]').innerText = organization.getName()
   page.querySelector('[data-attr="organization_image"] img').src = organization.getImage()
   page.querySelector('[data-attr="organization_presentation"]').innerHTML = md2html(organization.getPresentation())
-  // Gest members
+  content.querySelector('#organization .presentation').innerHTML = '';
+  content.querySelectorAll('#organization span').forEach(sp => {
+    sp.innerText= '';
+  })
+  // Get members
   list.clear()
   list.element.dataset.waiting = '';
   api.getOrganization(organization.getId(), e => {
@@ -102,6 +107,16 @@ function showOrganization() {
     list.drawList(e.members)
     organization.get().organization_presentation = e.presentation;
     page.querySelector('[data-attr="organization_presentation"]').innerHTML = md2html(e.presentation)
+    // general
+    console.log('organization', e)
+    const d = new Date(e.created_at)
+    content.querySelector('#organization .date').innerText = d.toLocaleDateString(undefined, {
+      year: 'numeric',
+      month: 'long',
+      day: 'numeric'
+    })
+    content.querySelector('#organization .nbMembers').innerText = e.members.length
+    content.querySelector('#organization .presentation').innerHTML = md2html(e.presentation)
   })
 }
 
