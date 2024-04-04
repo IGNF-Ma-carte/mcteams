@@ -9,13 +9,34 @@
 <div data-role="teaser-1">
   <article>
     <h2>Profil de l'organisation</h2>
-    <dl>
+    <dl class="left-block">
       <dt>Nom :</dt>
       <dd data-attr="organization_name"></dd>
+      <dt>Description :</dt>
+      <dd data-attr="organization_presentation"><img /></dd>
       <dt>Logo :</dt>
       <dd data-attr="organization_image"><img /></dd>
-    </dl>
+    </dl><div class="buttons">
+      <button class="button button-ghost editProfil admin">
+        Modifier le profil
+      </button>
+    </div>
+  </article>
+  <article class="members">
     <h2>Membres</h2>
-
+    <div></div>
+    <div class="buttons">
+      <button class="button button-ghost addMember admin">
+        Ajouter un membre
+      </button>
+    </div>
+  </article>
+  <article class="danger admin">
+    <div class="left-block">
+    </div><div class="buttons">
+      <button class="button button-accent delete">
+        Supprimer
+      </button>
+    </div>
   </article>
 </div>

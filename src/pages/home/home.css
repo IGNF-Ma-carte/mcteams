@@ -1,3 +1,11 @@
+#home .create {
+  text-align: right;
+  margin-bottom: 1em;
+}
+#home p {
+  text-align: initial;
+}
+
 .mc-list ul {
   list-style: none;
   margin: 0;
@@ -38,4 +46,11 @@
 
 .mc-list li.selected {
   background-color: #e1eefd!important;
+}
+
+.ol-ext-dialog.create-orga form {
+  width: 30em;
+}
+.ol-ext-dialog.create-orga input[type="text"] {
+  width: 100%;
 }

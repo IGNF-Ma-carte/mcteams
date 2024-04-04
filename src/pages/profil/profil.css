@@ -1,3 +1,23 @@
+#profil article {
+  margin-bottom: 1em;
+}
+#profil .left-block {
+  width: calc(100% - 14em);
+  display: inline-block;
+  min-width: 30em;
+}
+#profil article .buttons {
+  display: inline-block;
+  top: 1em;
+  right: 0;
+  width: 14em;
+  vertical-align: top;
+  text-align: right;
+}
+#profil article .buttons button {
+  margin: 0;
+}
+
 #profil dl > * {
   display: inline-block;
   box-sizing: border-box;
@@ -8,14 +28,50 @@
 #profil dt {
   font-weight: 700;
   text-align: right;
-  width: 5em;
+  width: 7em;
 }
 #profil dd {
   display: inline-block;
-  width: calc(100% - 6em);
+  width: calc(100% - 8em);
 }
 #profil dd img {
-  max-width: 20em;
+  max-width: 100%;
+}
+
+.mc-user[data-waiting] {
+  opacity: .3;
+}
+.mc-user[data-waiting]:before {
+  content: "\f110";
+  font-family: FontAwesome;
+  font-size: 3em;
+  position: absolute;
+  top: -1em;
+  right: .5em;
+  animation: fa-spin 1s infinite steps(8);
+}
+.mc-user li select {
+  padding: .5rem 1.5rem
+}
+.mc-user ul li {
+  padding-top: .2em;
+  padding-bottom: .2em;
+}
+.mc-user ul li.loading {
+  pointer-events: none;
+  opacity: .5;
+  background-image: repeating-linear-gradient(
+    45deg,#ccc,#ccc 10px,#eee 10px,#eee 20px
+  );
+}
+.mc-user ul li.loading:before {
+  content: "\f110";
+  font-family: FontAwesome;
+  position: absolute;
+  top: -.1em;
+  left: .5em;
+  font-size: 2em;
+  animation: fa-spin 1s infinite steps(8);
 }
 
 .mc-user li > div {
@@ -30,3 +86,46 @@
 .mc-user .mc-role {
   width: 30%;
 }
+
+#profil .members .buttons {
+  text-align: right;
+  display: block;
+  width: 100%;
+  margin-top: .5em;
+}
+
+#profil .admin {
+  display: none;
+}
+#profil[data-user="owner"] .admin {
+  display: unset;
+}
+
+/* dialog */
+.ol-ext-dialog.editProfil {
+  z-index: 999;
+}
+.ol-ext-dialog.editProfil label {
+  width: 30em;
+  display: block;
+}
+.ol-ext-dialog.editProfil input.name {
+  width: 100%;
+}
+.ol-ext-dialog.editProfil textarea {
+  min-width: 100%;
+  max-width: 100%;
+  height: 8em;
+}
+.ol-ext-dialog.editProfil .mc-input-media {
+  width: 100%;
+}
+.ol-ext-dialog.editProfil .mc-input-media .mc-img {
+  display: inline-block;
+  vertical-align: middle;
+  margin-right: .5em;
+}
+.ol-ext-dialog.editProfil .mc-input-media .logo {
+  width: calc(100% - 9.5em);
+}
+
