@@ -6,7 +6,7 @@
 .mc-list-carte .li-actions .edit {
   display: none;
 }
-.mc-list-carte [data-user="owner"] .li-actions .edit {
+[data-orga-role="owner"] .mc-list-carte .li-actions .edit {
   display: inline-block;
 }
 */

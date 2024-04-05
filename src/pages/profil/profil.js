@@ -18,7 +18,7 @@ organization.on('change', showOrganization)
 
 // Display organization
 function showOrganization() {
-  page.dataset.user = organization.getUserRole()
+  document.body.dataset.orgaRole = organization.getUserRole()
   page.querySelector('[data-attr="organization_name"]').innerText = organization.getName()
   page.querySelector('[data-attr="organization_image"] img').src = organization.getImage()
   page.querySelector('[data-attr="organization_presentation"]').innerHTML =

@@ -97,6 +97,12 @@
 }
 
 
+#profil .members .mc-list {
+  max-width: 60em;
+  margin: auto;
+  background-color: #fefefe;
+  padding: 1em;
+}
 #profil .members .buttons {
   text-align: right;
   display: block;
@@ -107,7 +113,7 @@
 #profil .admin {
   display: none;
 }
-#profil[data-user="owner"] .admin {
+[data-orga-role="owner"] #profil .admin {
   display: unset;
 }
 

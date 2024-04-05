@@ -136,7 +136,10 @@ function removeMember(user, li) {
 /* Add a list of new members recursively
  */
 function addMembers(members, role, errors) {
+  // Get a refresh token at first
+  const refresh = !errors;
   if (!errors) errors = [];
+  // Next member
   const u = members.pop()
   if (u) {
     api.addOrganizationMember(organization.getId(), u.id, role, e => {
@@ -147,9 +150,11 @@ function addMembers(members, role, errors) {
         dialog.showAlert('Impossible d\'ajouter un membre')
         organization.changed()
       }
-    })
+    }, refresh)
   } else {
+    // No more member > refresh page
     organization.changed()
+    // Chek errors
     if (errors.length) {
       dialog.showAlert('Certains membres étaient déjà dans l\'oganisation et n\'ont pas étés ajoutés')
       const ul = element.create('UL', {

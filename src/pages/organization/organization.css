@@ -39,3 +39,14 @@
 #organization .info > div:last-child {
   grid-column: 4 / 5;
 }
+
+[data-orga-role="member"] #organization [data-ref="maps"],
+[data-orga-role="member"] #organization [data-ref="medias"] {
+  display: none;
+}
+
+[data-orga-role="owner"] #organization h2.member,
+[data-orga-role="editor"] #organization h2.owner,
+[data-orga-role="member"] #organization h2.owner {
+  display: none;
+}
