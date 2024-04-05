@@ -15,7 +15,7 @@
   position: relative;
   border-bottom: 1px solid #eee;
   cursor: pointer;
-  padding: .5em 1em .5em 6.5em;
+  padding: .5em 2.5em .5em 6.5em;
 }
 .mc-list ul li:hover {
   background-color: #eee;
@@ -34,7 +34,7 @@
   font-family: font-ign;
   position: absolute;
   top: 50%;
-  right: 0;
+  right: .5em;
   transform: translateY(-50%);
 }
 .mc-list .role_owner:before {
@@ -53,4 +53,11 @@
 }
 .ol-ext-dialog.create-orga input[type="text"] {
   width: 100%;
+}
+
+article.danger {
+  background-image: repeating-linear-gradient(
+    45deg,rgba(241, 131, 69, .2),rgba(241, 131, 69, .2) 10px,#eee 10px,#eee 20px
+  );
+  border: 2px solid rgba(241, 131, 69, 1);
 }

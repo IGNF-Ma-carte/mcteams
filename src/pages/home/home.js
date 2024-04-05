@@ -71,12 +71,22 @@ page.querySelector('.create button').addEventListener('click', () => {
           }, o => {
             if (o.error) {
               // Handle error
-              dialog.hide();
+              if (o.status === 403) {
+                dialog.showAlert('Impossible de créer l\'organisation :<br/>une organisation avec le même nom existe déjà...')
+              } else {
+                dialog.showAlert('Impossible de créer une organisation...')
+              }
             } else {
-              // Go to organization
               dialog.hide();
-              organization.set(o);
+              organization.set({
+                organization_id: o.public_id,
+                organization_name: o.name,
+                organization_image: o.image,
+                user_role: "owner"
+              });
               pages.show('profil');
+              // Reload page
+              location.reload();
             }
           })
         }

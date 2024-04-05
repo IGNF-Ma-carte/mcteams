@@ -1,4 +1,5 @@
 import './mcversion'
+import './i18n'
 import charte from 'mcutils/charte/macarte'
 import api from 'mcutils/api/api'
 import 'mcutils/Carte'

@@ -5,7 +5,7 @@ import html from './organization-page.html'
 import './organization.css'
 
 const content = document.querySelector('.connected')
-const page = pages.add('organization', html, content)
+pages.add('organization', html, content)
 
 // Update breadscrum and title
 organization.on('change', () => {

@@ -53,7 +53,7 @@ list.addAction({
 list.addAction({
   html: 'Détail', 
   title: 'Voir les détails de la carte',
-  action: (item) => {
+  action: () => {
     pages.show('details')
   },
 })

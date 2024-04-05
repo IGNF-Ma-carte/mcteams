@@ -1,101 +1,28 @@
-import element from 'ol-ext/util/element'
+import _T from 'mcutils/i18n/i18n';
 import api from 'mcutils/api/api'
 import organization from 'mcutils/api/organization';
-import pages from 'mcutils/charte/pages.js'
 import md2html from 'mcutils/md/md2html'
-import _T from 'mcutils/i18n/i18n';
 import dialog from 'mcutils/dialog/dialog'
 import MDEditor from 'mcutils/md/MDEditor'
 import InputMedia from 'mcutils/control/InputMedia'
-import ListTable from 'mcutils/api/ListTable';
 
-import html from './profil-page.html'
+import { page, list } from './members'
+
 import profilDlg from './profil-dialog.html'
-import addMemberDlg from './addMember-dialog.html'
 import './profil.css'
+import pages from 'mcutils/charte/pages';
 
 const content = document.querySelector('.connected')
-const page = pages.add('profil', html, document.querySelector('.connected'))
 
 organization.on('change', showOrganization)
-
-/* Members */
-const list = new ListTable({
-  className: 'mc-user',
-  target: page.querySelector('article.members div')
-})
-list.drawItem = (user, li) => {
-  element.create('DIV', {
-    className : 'mc-name',
-    text: user.public_name,
-    parent: li
-  })
-  const roleElt = element.create('DIV', {
-    className : 'mc-role',
-    parent: li
-  })
-  // Role
-  if (organization.isOwner()) {
-    // Owner can select role
-    const roleSel = element.create('SELECT', {
-      change: () => {
-        const r = roleSel.value
-        li.classList.add('loading')
-        api.setOrganizationMember(organization.getId(), user.public_id, r, e => {
-          if (!e.error) {
-            user.role = r;
-          } else {
-            roleSel.value = user.role
-            dialog.showAlert('Impossible de modifier le role')
-          }
-          li.classList.remove('loading')
-        })
-      },
-      parent: roleElt
-    });
-    ['owner', 'editor', 'member'].forEach(o => {
-      element.create('OPTION', {
-        value: o,
-        text: _T('organization:role_' + o),
-        parent: roleSel
-      })
-    });
-    roleSel.value = user.role
-  } else {
-    roleElt.innerText = _T('organization:role_' + user.role)
-  }
-}
-
-// Add member
-page.querySelector('button.addMember').addEventListener('click', () => {
-  dialog.show({
-    className: 'addMember',
-    content: addMemberDlg, 
-    buttons: { submit: _T('ajouter'), cancel: _T('cancel')},
-    onButton: (b, inputs) => {
-      if (b==='submit') {
-        console.log(inputs)
-      }
-    }
-  })
-  const sel = dialog.getContentElement().querySelector('select');
-  ['owner', 'editor', 'member'].forEach(o => {
-    element.create('OPTION', {
-      value: o,
-      text: _T('organization:role_' + o),
-      parent: sel
-    })
-  });
-  sel.value = 'member'
-})
 
 // Display organization
 function showOrganization() {
   page.dataset.user = organization.getUserRole()
   page.querySelector('[data-attr="organization_name"]').innerText = organization.getName()
   page.querySelector('[data-attr="organization_image"] img').src = organization.getImage()
-  page.querySelector('[data-attr="organization_presentation"]').innerHTML = md2html(organization.getPresentation())
-  content.querySelector('#organization .presentation').innerHTML = '';
+  page.querySelector('[data-attr="organization_presentation"]').innerHTML =
+  content.querySelector('#organization .presentation').innerHTML = md2html(organization.getPresentation());
   content.querySelectorAll('#organization span').forEach(sp => {
     sp.innerText= '';
   })
@@ -104,11 +31,26 @@ function showOrganization() {
   list.element.dataset.waiting = '';
   api.getOrganization(organization.getId(), e => {
     delete list.element.dataset.waiting;
+    if (e.error) return;
+    // Alphabetic order
+    const sorter = {
+      owner: 0,
+      editor: 1,
+      member: 2
+    }
+    e.members.sort((a,b) => {
+      // Sort by role
+      const s = sorter[a.role] - sorter[b.role]
+      if (s) return s;
+      if (a.public_name < b.public_name) return -1;
+      if (a.public_name > b.public_name) return 1;
+      return 0
+    })
+    // Show organization
     list.drawList(e.members)
     organization.get().organization_presentation = e.presentation;
     page.querySelector('[data-attr="organization_presentation"]').innerHTML = md2html(e.presentation)
     // general
-    console.log('organization', e)
     const d = new Date(e.created_at)
     content.querySelector('#organization .date').innerText = d.toLocaleDateString(undefined, {
       year: 'numeric',
@@ -184,3 +126,27 @@ function updateOrganization(upd) {
     }
   })
 }
+
+// Delete Organization
+page.querySelector('.danger .delete').addEventListener('click', () => {
+  dialog.showAlert(
+    'Attention, cette opération est irréversible.<br/>'
+    + 'Les données associées à cette organisation (carte, images, etc.) seront définitvement perdues.',
+    { ok: 'Supprimer quand même', submit: _T('cancel') },
+    b => {
+      if (b==='ok') {
+        dialog.showWait('Supression en cours...');
+        api.deleteOrganization(organization.getId(), o => {
+          if (o.error) {
+            dialog.showAlert('Opération impossible')
+          } else {
+            pages.show()
+            location.reload()
+          }
+        })
+      } else {
+        dialog.hide()
+      }
+    }
+  )
+})
