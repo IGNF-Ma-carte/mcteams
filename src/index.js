@@ -11,6 +11,7 @@ import './pages/organization/organization'
 import './pages/atlas/atlas'
 import './pages/cartes/cartes'
 import './pages/profil/profil'
+import './pages/detail/detail'
 
 import './index.css'
 

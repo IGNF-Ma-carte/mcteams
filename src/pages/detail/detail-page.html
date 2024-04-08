@@ -1,0 +1,118 @@
+<h1 class="carte"><i>carte</i></h1>
+<p class="lead">
+  <i class="fa fa-eye" aria-hidden="true"></i>
+  <span data-attr="nb_view"></span> vues
+</p>
+<div>
+  <ul class="breadcrumb"> 
+    <li><a class="link-macarte" target="_blank">Accueil</a></li> 
+    <li><a class="link-home" href="#">Mes organisations</a></li>
+    <li class="current-orga"><a href="#organization"></a></li> 
+    <li class="cartes"><a href="#cartes">cartes</a></li> 
+  </ul>
+</div>
+<div class="actions">
+  <button class="button button-ghost delete">Supprimer la carte</button>
+  <button class="button button-ghost edit-data">Modifier la carte</button>
+  <button class="button button-ghost edit">Modifier les informations</button>
+</div>
+<div class="wrapper">
+  <iframe></iframe>
+  <div class="informations">
+    <h2>Informations</h2>
+    <div class="invalid hide">
+      <h3>
+        <b>ATTENTION</b>
+      </h3>
+      <p>
+        Cette carte a été déclarée invalide par un administrateur
+      </p>
+    </div>
+    <p>
+      <b>Description&nbsp;: </b>
+    </p>
+    <div data-attr="description">
+      <i>Pas de description enregistrée</i>
+    </div> 
+    <p>
+      <b>Thème&nbsp;: </b>
+      <span data-attr="theme">Agriculture</span>
+    </p> 
+    <p>
+      <b>Date de création&nbsp;: </b>
+      <date data-attr="created_at">04/04/2024 14:25:37</date>
+    </p> 
+    <p>
+      <b>Date de modification&nbsp;: </b>
+      <date data-attr="updated_at">04/04/2024 14:25:37</date>
+    </p> 
+    <p>
+      <b>Dernier modificateur&nbsp;: </b>
+      <span data-attr="user">Viglino</span>
+    </p> 
+      <div> 
+        <b>Image d'illustration&nbsp;: </b>
+        <img data-attr="img_url" />
+      </div>  
+      <p>
+        <b>Publication dans l'atlas&nbsp;: </b> 
+        <label class="ol-ext-check ol-ext-checkbox" title="Cliquer pour modifier la publication">
+          <input type="checkbox" checked="" data-attr="share"><span></span> 
+        </label> 
+      </p> 
+      <p>
+        <b>Carte active&nbsp;: </b>
+        <label class="ol-ext-check ol-ext-checkbox" title="Cliquer pour modifier l'activation'">
+          <input type="checkbox" checked="" data-attr="active"><span></span>
+        </label>
+      </p>
+    </div>
+  </div>
+  <div data-role="teaser-1">
+    <div>
+      <article>
+        <h2>Partage de la carte</h2>
+        <div class="partage">
+
+        </div>
+        <table>
+          <tbody>
+            <tr>
+              <td>
+                <b>Lien pour visualiser la carte&nbsp;: </b>
+              </td>
+              <td>
+                <a data-attr="view_url" target="_blank"></a>
+              </td>
+            </tr>
+            <tr>
+              <td>
+                <b>Lien pour modifier la carte&nbsp;: </b>
+              </td>
+              <td>
+                <a data-attr="edit_url" target="_blank"></a>
+              </td>
+            </tr>
+            <tr>
+              <td>
+                <b>ATTENTION </b>
+              </td>
+              <td>
+                <p>
+                  Ne transmettez ce lien de modification qu'aux personnes que vous autorisez à modifier la carte
+                </p>
+                <p>
+                  <button class="button button-ghost new-id_edit">
+                    Créer un nouveau lien de modification
+                  </button>
+                </p>
+                <p>
+                  Cliquez sur ce bouton pour modifier le lien de modification et ainsi empêcher l'accès aux personnes auxquelles vous l'aviez transmis
+                </p>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </article>
+    </div>
+  </div>
