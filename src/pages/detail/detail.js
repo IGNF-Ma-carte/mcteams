@@ -74,16 +74,21 @@ page.querySelector('button.edit_author').addEventListener('click', () => {
     tout = setTimeout(() => list.drawList(listMember.getItems()), 300)
   }
   list.showPage()
+  // Double click = submit
+  list.on('dblclick', () => {
+    dialog.element.querySelector('.ol-buttons input[type="submit"]').click();
+  })
   // Show dialog
   dialog.show({
     title: 'Changer l\'auteur de la carte',
     className: 'update-author',
     content: content,
-    buttons: { ok: _T('ok'), cancel: _T('cancel') },
+    buttons: { submit: _T('ok'), cancel: _T('cancel') },
     onButton: b => {
-      if (b !== 'ok') return;
+      if (b !== 'submit') return;
       const user = list.getSelection()
       if (!user) return;
+      dialog.close();
       page.querySelector('[data-attr="author"]').parentNode.classList.add('loading')
       api.updateMap(currentCarte.edit_id, { creator_id: user.public_id }, e => {
         if (!e.error) {
@@ -94,6 +99,35 @@ page.querySelector('button.edit_author').addEventListener('click', () => {
     }
   })
 })
+
+// Update carte share mode
+page.querySelector('select[data-attr="share"]').addEventListener('change', e => {
+  e.target.parentNode.classList.add('loading')
+  api.updateMap(currentCarte.edit_id, { share: e.target.value }, c => {
+    e.target.parentNode.classList.remove('loading')
+    if (c.error) {
+      dialog.showAlert('Impossible de mettre à jour la carte...')
+      e.target.value = currentCarte.share
+    } else {
+      currentCarte.share = c.share
+    }
+  })
+})
+// Activate/deactivate
+page.querySelector('input[data-attr="active"]').addEventListener('change', e => {
+  e.target.parentNode.parentNode.classList.add('loading')
+  api.updateMap(currentCarte.edit_id, { active: e.target.checked }, a => {
+    e.target.parentNode.parentNode.classList.remove('loading')
+    if (a.error) {
+      dialog.showAlert('Impossible de mettre à jour la carte...')
+      e.target.checked = currentCarte.active
+    } else {
+      currentCarte.active = a.active
+      console.log(currentCarte)
+    }
+  })
+})
+
 
 /* Show the carte informations
  * @param {Objet} carte
@@ -119,7 +153,6 @@ function showCarte(carte, from) {
   }
   // iframe
   page.querySelector('iframe').src = carte.view_url
-  console.log(carte)
   // Attributes
   page.querySelectorAll('[data-attr]').forEach(a => {
     const attr = a.dataset.attr;
@@ -141,11 +174,12 @@ function showCarte(carte, from) {
         break;
       }
       case 'INPUT': {
-        if (attr === 'share') {
-          a.checked = carte[attr] === 'atlas'
-        } else {
-          a.checked = carte[attr]
-        }
+        // Input checkbox
+        a.checked = carte[attr]
+        break;
+      }
+      case 'SELECT': {
+        a.value = carte[attr]
         break;
       }
       case 'SPAN': 

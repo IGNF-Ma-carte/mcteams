@@ -14,3 +14,11 @@
 [data-orga-role="owner"] .mc-list-carte .li-actions span {
   display: inline-block;
 }
+
+.mc-list-carte.mc-profile .mc-user {
+  display: inline-block;
+}
+
+.mc-list.mc-profile .author {
+  display: block;
+}

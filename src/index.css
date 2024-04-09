@@ -11,3 +11,25 @@ body[data-connected] .disconnected {
   max-width: 130rem;
   margin: auto;
 }
+
+.connected .loading {
+  position: relative;
+  pointer-events: none;
+  opacity: .7;
+  background-image: repeating-linear-gradient(45deg,
+    rgba(0,0,0,.1),
+    rgba(0,0,0,.1) 10px,
+    transparent 10px,
+    transparent 20px
+  );
+}
+
+.connected .loading:before {
+  content: "\f110";
+  font-family: FontAwesome;
+  position: absolute;
+  top: -.5em;
+  right: 1em;
+  font-size: 2em;
+  animation: fa-spin 1s infinite steps(8);
+}

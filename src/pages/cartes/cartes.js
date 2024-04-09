@@ -26,9 +26,13 @@ function showCartes(type, context) {
   // Show page
   pages.on('change', p => {
     if (p.id === type) {
-      list.set('organization', organization.getId())
-      list.clear();
-      list.search();
+      if (p.from !== 'detail') {
+        list.set('organization', organization.getId())
+        list.clear();
+        list.search();
+      } else {
+        list.refresh()
+      }
     }
   })
   // First show

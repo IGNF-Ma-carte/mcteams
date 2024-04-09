@@ -62,25 +62,6 @@
   padding-top: .2em;
   padding-bottom: .2em;
 }
-#detail td.loading,
-.mc-user ul li.loading {
-  position: relative;
-  pointer-events: none;
-  opacity: .5;
-  background-image: repeating-linear-gradient(
-    45deg,#ccc,#ccc 10px,#eee 10px,#eee 20px
-  );
-}
-#detail td.loading:before,
-.mc-user ul li.loading:before {
-  content: "\f110";
-  font-family: FontAwesome;
-  position: absolute;
-  top: -.1em;
-  left: .5em;
-  font-size: 2em;
-  animation: fa-spin 1s infinite steps(8);
-}
 
 .mc-user li > div {
   display: inline-block;

@@ -55,10 +55,17 @@
         <img data-attr="img_url" />
       </div>  
       <p>
-        <b>Publication dans l'atlas&nbsp;: </b> 
-        <label class="ol-ext-check ol-ext-checkbox" title="Cliquer pour modifier la publication">
-          <input type="checkbox" checked="" data-attr="share"><span></span> 
-        </label> 
+        <b>Type de carte&nbsp;: </b> 
+        <select data-attr="share">
+          <option value="private">Privée</option>
+          <option value="public">Publique</option>
+          <option value="atlas">Atlas</option>
+        </select>
+        <!--
+          <label class="ol-ext-check ol-ext-checkbox" title="Cliquer pour modifier la publication">
+            <input type="checkbox" checked="" data-attr="share"><span></span> 
+          </label> 
+        -->
       </p> 
       <p>
         <b>Carte active&nbsp;: </b>

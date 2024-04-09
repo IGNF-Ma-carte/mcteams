@@ -17,7 +17,8 @@ const orgaList = page.querySelector('ul[data-role="organizations"]')
 
 function showList() {
   orgaList.innerHTML = '';
-  const orga = api.getMe().organizations;
+  const me = api.getMe();
+  const orga = me ? me.organizations : false;
   if (orga) {
     orga.forEach(o => {
       const li = element.create('LI', {
