@@ -118,11 +118,14 @@ function updateOrganization(upd) {
   // Set attributes
   api.setOrganization(organization.getId(), v[0], v[1], o => {
     if (!o.error) {
-      console.log(o);
       organization.get()['organization_'+o.attribute] = o.value
       updateOrganization(upd)
     } else {
-      dialog.showAlert('Impossible de mettre à jour...')
+      if (o.status === 403) {
+        dialog.showAlert('Une organisation avec le même nom existe déjà...')
+      } else {
+        dialog.showAlert('Impossible de mettre à jour...')
+      }
     }
   })
 }

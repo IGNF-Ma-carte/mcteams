@@ -50,3 +50,18 @@
 #detail td:first-child {
   min-width: min(20vw, 15em);
 }
+#detail button.edit_author {
+  display: block;
+  min-width: unset;
+  padding: .5em 1em;
+  margin: .5em 0;
+  line-height: normal;
+}
+
+.ol-ext-dialog.update-author form {
+  width: 30em;
+  overflow: visible;
+}
+.ol-ext-dialog.update-author input[type="search"] {
+  width: 100%;
+}

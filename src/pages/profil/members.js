@@ -232,3 +232,4 @@ page.querySelector('button.addMember').addEventListener('click', () => {
 
 
 export { page, list }
+export { list as listMember }
