@@ -1,3 +1,4 @@
+import _T from 'mcutils/i18n/i18n';
 import element from 'ol-ext/util/element'
 import api from 'mcutils/api/api'
 import organization from 'mcutils/api/organization';
@@ -5,13 +6,12 @@ import pages from 'mcutils/charte/pages.js'
 import md2html from 'mcutils/md/md2html';
 import dialog from 'mcutils/dialog/dialog'
 import ListTable from 'mcutils/api/ListTable';
+import { getEditorURL } from 'mcutils/api/serviceURL';
+import saveCarte from 'mcutils/dialog/saveCarte'
+import { listMember } from '../profil/members'
 
 import html from './detail-page.html'
 import './detail.css'
-import { getEditorURL } from 'mcutils/api/serviceURL';
-import _T from 'mcutils/i18n/i18n';
-import UserInput from 'mcutils/api/UserInput';
-import { listMember } from '../profil/members'
 
 const page = pages.add("detail", html, document.querySelector('.connected'))
 
@@ -98,36 +98,53 @@ page.querySelector('button.edit_author').addEventListener('click', () => {
       })
     }
   })
-})
+});
 
-// Update carte share mode
-page.querySelector('select[data-attr="share"]').addEventListener('change', e => {
-  e.target.parentNode.classList.add('loading')
-  api.updateMap(currentCarte.edit_id, { share: e.target.value }, c => {
-    e.target.parentNode.classList.remove('loading')
-    if (c.error) {
-      dialog.showAlert('Impossible de mettre à jour la carte...')
-      e.target.value = currentCarte.share
-    } else {
-      currentCarte.share = c.share
-    }
-  })
-})
-// Activate/deactivate
-page.querySelector('input[data-attr="active"]').addEventListener('change', e => {
-  e.target.parentNode.parentNode.classList.add('loading')
-  api.updateMap(currentCarte.edit_id, { active: e.target.checked }, a => {
-    e.target.parentNode.parentNode.classList.remove('loading')
-    if (a.error) {
-      dialog.showAlert('Impossible de mettre à jour la carte...')
-      e.target.checked = currentCarte.active
-    } else {
-      currentCarte.active = a.active
-      console.log(currentCarte)
-    }
+// Direct update
+['active', 'share'].forEach(att => {
+  page.querySelector('[data-attr="'+att+'"]').addEventListener('change', e => {
+    const value = (att==='active' ? 'checked' : 'value');
+    const upd = {}
+    upd[att] = e.target[value]
+    // Loading
+    let loading = e.target.parentNode;
+    if (loading.tagName !== 'P') loading = loading.parentNode;
+    loading.classList.add('loading')
+    // Update
+    api.updateMap(currentCarte.edit_id, upd, a => {
+      loading.classList.remove('loading')
+      if (a.error) {
+        dialog.showAlert('Impossible de mettre à jour la carte...')
+        e.target[value] = currentCarte[att]
+      } else {
+        currentCarte[att] = a[att]
+      }
+    })
   })
 })
 
+// Update attributes
+page.querySelector('.actions button.edit').addEventListener('click', () => {
+  saveCarte(Object.assign({}, currentCarte), e =>  {
+    const updates = {
+      title: e.title,
+      description: e.description,
+      theme: e.theme,
+      theme_id: e.theme_id,
+      img_url: e.img_url
+    }
+    api.updateMap(currentCarte.edit_id, updates, c => {
+      if (c.error) {
+        dialog.showAlert('Impossible de mettre à jour la carte...')
+      } else {
+        for (let i in updates) {
+          currentCarte[i] = updates[i]
+        }
+        showCarte(currentCarte)
+      }
+    })
+  })
+})
 
 /* Show the carte informations
  * @param {Objet} carte
@@ -137,7 +154,7 @@ function showCarte(carte, from) {
   currentCarte = carte
   pages.show('detail')
   // Title
-  page.querySelector('.breadcrumb .cartes a').innerText = from
+  if (from) page.querySelector('.breadcrumb .cartes a').innerText = from
   page.querySelector('h1.carte').innerText = carte.title
   // Creator
   api.getMap(carte.view_id, e => {
@@ -162,7 +179,7 @@ function showCarte(carte, from) {
         break;
       }
       case 'A': {
-        a.innerText = a.href = carte[attr]
+        a.innerText = a.href = carte[attr] || '';
         break;
       }
       case 'IMG': {
@@ -189,6 +206,9 @@ function showCarte(carte, from) {
       }
     }
   })
+  // Disable for editor
+  page.querySelector('[data-attr="share"]').disabled = !organization.isOwner()
+  page.querySelector('[data-attr="active"]').disabled = !organization.isOwner()
 }
 
 // First show > back to organization

@@ -15,6 +15,7 @@ const page = pages.add('home', html, document.querySelector('.connected'));
 
 const orgaList = page.querySelector('ul[data-role="organizations"]')
 
+// Show user organization list
 function showList() {
   orgaList.innerHTML = '';
   const me = api.getMe();
@@ -52,9 +53,14 @@ organization.on('change', showList)
 api.on('me', showList)
 
 // No organization
-if (!organization.getId() && pages.getId()) {
+if (!organization.getId() && pages.getId() !== 'home') {
   pages.show();
 }
+pages.on('change', () => {
+  if (!organization.getId() && pages.getId() !== 'home') {
+    pages.show();
+  }
+})
 
 // Create orga
 page.querySelector('.create button').addEventListener('click', () => {
