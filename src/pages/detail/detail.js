@@ -6,7 +6,7 @@ import pages from 'mcutils/charte/pages.js'
 import md2html from 'mcutils/md/md2html';
 import dialog from 'mcutils/dialog/dialog'
 import ListTable from 'mcutils/api/ListTable';
-import { getEditorURL } from 'mcutils/api/serviceURL';
+import { getEditorURL, getViewerURL } from 'mcutils/api/serviceURL';
 import saveCarte from 'mcutils/dialog/saveCarte'
 import { listMember } from '../profil/members'
 
@@ -146,6 +146,24 @@ page.querySelector('.actions button.edit').addEventListener('click', () => {
   })
 })
 
+// Open carte
+page.querySelector('.actions button.edit-data').addEventListener('click', () => {
+  window.open(getEditorURL(currentCarte), '_blank');
+})
+
+// Delete carte
+page.querySelector('.actions button.delete').addEventListener('click', () => {
+  dialog.showWait('Suppression en cours')
+  api.deleteMap(currentCarte.edit_id, e => {
+    if (e.error) {
+      dialog.showAlert('Impossible de supprimer la carte')
+    } else {
+      dialog.hide();
+      pages.show('cartes', true)
+    }
+  })
+})
+
 /* Show the carte informations
  * @param {Objet} carte
  * @param {string} from the page it comes from: atlas or cartes
@@ -154,8 +172,9 @@ function showCarte(carte, from) {
   currentCarte = carte
   pages.show('detail')
   // Title
-  if (from) page.querySelector('.breadcrumb .cartes a').innerText = from
   page.querySelector('h1.carte').innerText = carte.title
+  // Breadscrum
+  if (from) page.querySelector('.breadcrumb .cartes a').innerText = from
   // Creator
   api.getMap(carte.view_id, e => {
     if (!e.error) {
@@ -169,7 +188,7 @@ function showCarte(carte, from) {
     page.dataset.invalid = '';
   }
   // iframe
-  page.querySelector('iframe').src = carte.view_url
+  page.querySelector('iframe').src = getViewerURL(carte);
   // Attributes
   page.querySelectorAll('[data-attr]').forEach(a => {
     const attr = a.dataset.attr;
@@ -209,6 +228,7 @@ function showCarte(carte, from) {
   // Disable for editor
   page.querySelector('[data-attr="share"]').disabled = !organization.isOwner()
   page.querySelector('[data-attr="active"]').disabled = !organization.isOwner()
+  page.querySelector('.actions button.delete').disabled = (carte.share !== 'private')
 }
 
 // First show > back to organization
