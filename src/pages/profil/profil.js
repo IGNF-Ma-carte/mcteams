@@ -5,6 +5,7 @@ import md2html from 'mcutils/md/md2html'
 import dialog from 'mcutils/dialog/dialog'
 import MDEditor from 'mcutils/md/MDEditor'
 import InputMedia from 'mcutils/control/InputMedia'
+import { getOrgaURL } from 'mcutils/api/serviceURL';
 
 import { page, list } from './members'
 
@@ -63,8 +64,13 @@ function showOrganization() {
   })
 }
 
+// See online
+page.querySelector('.onlineProfile').addEventListener('click', () => {
+  window.open(getOrgaURL(organization), '_blank')
+})
+
 // Update 
-page.querySelector('.editProfil').addEventListener('click', () => {
+page.querySelector('.editProfile').addEventListener('click', () => {
   if (!organization.isOwner()) {
     dialog.showAlert('Action non autorisée')
     return;
