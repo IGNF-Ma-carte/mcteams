@@ -20,7 +20,7 @@ function showList() {
   orgaList.innerHTML = '';
   const me = api.getMe();
   const orga = me ? me.organizations : false;
-  if (orga) {
+  if (orga && orga.length) {
     orga.forEach(o => {
       const li = element.create('LI', {
         className: o.public_id === organization.getId() ? 'selected' : '',
@@ -46,6 +46,11 @@ function showList() {
         parent: li
       })
     });
+  } else {
+    element.create('LI', {
+      html: '<i>Vous n\'avez pas encore d\'organisation...</i>',
+      parent: orgaList
+    })
   }
 }
 
