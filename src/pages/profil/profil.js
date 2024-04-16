@@ -19,9 +19,10 @@ organization.on('change', showOrganization)
 // Display organization
 function showOrganization() {
   document.body.dataset.orgaRole = organization.getUserRole()
-  page.querySelector('[data-attr="organization_name"]').innerText = organization.getName()
-  page.querySelector('[data-attr="organization_image"] img').src = organization.getImage()
-  page.querySelector('[data-attr="organization_presentation"]').innerHTML =
+  page.querySelector('[data-attr="name"]').innerText = organization.getName()
+  page.querySelector('[data-attr="profile_picture"] img').src = organization.getImage()
+  page.querySelector('[data-attr="cover_picture"] img').src = organization.getCoverImage()
+  page.querySelector('[data-attr="presentation"]').innerHTML =
   content.querySelector('#organization .presentation').innerHTML = md2html(organization.getPresentation());
   content.querySelectorAll('#organization span').forEach(sp => {
     sp.innerText= '';
@@ -48,8 +49,8 @@ function showOrganization() {
     })
     // Show organization
     list.drawList(e.members)
-    organization.get().organization_presentation = e.presentation;
-    page.querySelector('[data-attr="organization_presentation"]').innerHTML = md2html(e.presentation)
+    organization.get().presentation = e.presentation;
+    page.querySelector('[data-attr="presentation"]').innerHTML = md2html(e.presentation)
     // general
     const d = new Date(e.created_at)
     content.querySelector('#organization .date').innerText = d.toLocaleDateString(undefined, {
@@ -57,7 +58,7 @@ function showOrganization() {
       month: 'long',
       day: 'numeric'
     })
-    content.querySelector('#organization .nbMembers').innerText = e.members.length
+    content.querySelector('#organization .nbMembers').innerText = e.nb_members
     content.querySelector('#organization .presentation').innerHTML = md2html(e.presentation)
   })
 }
@@ -84,7 +85,10 @@ page.querySelector('.editProfil').addEventListener('click', () => {
           upd.push([ 'presentation', inputs.presentation.value ]);
         }
         if (inputs.logo.value !== organization.getImage()) {
-          upd.push([ 'image', inputs.logo.value ]);
+          upd.push([ 'profile_picture', inputs.logo.value ]);
+        }
+        if (inputs.cover.value !== organization.getCoverImage()) {
+          upd.push([ 'cover_picture', inputs.cover.value ]);
         }
         updateOrganization(upd)
       }
@@ -96,13 +100,16 @@ page.querySelector('.editProfil').addEventListener('click', () => {
   dialog.getContentElement().querySelector('.presentation').value = organization.getPresentation()
   new MDEditor({
     input: dialog.getContentElement().querySelector('.presentation')
-  })
+  });
   // Media
-  dialog.getContentElement().querySelector('.logo').value = organization.getImage()
-  new InputMedia({
-    input: dialog.getContentElement().querySelector('.logo'),
-    fullpath: true,
-    add: true
+  ['logo', 'cover'].forEach(cl => {
+    let input = dialog.getContentElement().querySelector('input.'+cl)
+    input.value = (cl==='logo' ? organization.getImage() : organization.getCoverImage())
+    new InputMedia({
+      input: input,
+      fullpath: true,
+      add: true
+    })
   })
 })
 
@@ -118,7 +125,7 @@ function updateOrganization(upd) {
   // Set attributes
   api.setOrganization(organization.getId(), v[0], v[1], o => {
     if (!o.error) {
-      organization.get()['organization_'+o.attribute] = o.value
+      organization.get()[o.attribute] = o.value
       updateOrganization(upd)
     } else {
       if (o.status === 403) {

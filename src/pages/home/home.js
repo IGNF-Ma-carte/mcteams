@@ -23,19 +23,20 @@ function showList() {
   if (orga) {
     orga.forEach(o => {
       const li = element.create('LI', {
-        className: o.organization_id === organization.getId() ? 'selected' : '',
+        className: o.public_id === organization.getId() ? 'selected' : '',
         click: () => {
+          console.log(o)
           organization.set(o);
           pages.show('organization');
         },
         parent: orgaList
       })
       element.create('IMG', {
-        src: o.organization_image || '',
+        src: o.profile_picture || '',
         parent: li
       })
       element.create('DIV', {
-        text: o.organization_name,
+        text: o.name,
         class: 'title',
         parent: li
       })
@@ -86,9 +87,9 @@ page.querySelector('.create button').addEventListener('click', () => {
             } else {
               dialog.hide();
               organization.set({
-                organization_id: o.public_id,
-                organization_name: o.name,
-                organization_image: o.image,
+                public_id: o.public_id,
+                name: o.name,
+                profile_picture: o.profile_picture,
                 user_role: "owner"
               });
               pages.show('profil');

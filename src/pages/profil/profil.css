@@ -38,7 +38,7 @@
   max-width: 100%;
   max-height: 15em;
 }
-#profil dd[data-attr="organization_image"] img {
+#profil dd[data-attr="profile_picture"] img {
   max-width: 6em;
   max-height: 6em;
 }
@@ -127,6 +127,9 @@
 }
 .ol-ext-dialog.editProfil .mc-input-media .logo {
   width: calc(100% - 9.5em);
+}
+.ol-ext-dialog.editProfil .cover .mc-input-media .mc-img {
+  width: 50%;
 }
 
 /* Add member dialog */
