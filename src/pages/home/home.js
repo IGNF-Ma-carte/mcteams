@@ -56,6 +56,11 @@ function showList() {
 
 // Refresh organizations list
 organization.on('change', showList)
+organization.on('change', () => {
+  if (!organization.getId()) {
+    pages.show();
+  }
+})
 api.on('me', showList)
 
 // No organization
