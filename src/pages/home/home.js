@@ -10,6 +10,7 @@ import createDlg from './create-dialog.html'
 
 import 'mcutils/api/ListTable.css'
 import './home.css'
+import md2html from 'mcutils/md/md2html';
 
 const page = pages.add('home', html, document.querySelector('.connected'));
 
@@ -24,8 +25,8 @@ function showList() {
     orga.forEach(o => {
       const li = element.create('LI', {
         className: o.public_id === organization.getId() ? 'selected' : '',
+        'data-orga': o.public_id,
         click: () => {
-          console.log(o)
           organization.set(o);
           pages.show('organization');
         },
@@ -35,7 +36,7 @@ function showList() {
         src: o.profile_picture || '',
         parent: li
       })
-      element.create('DIV', {
+      element.create('p', {
         text: o.name,
         class: 'title',
         parent: li

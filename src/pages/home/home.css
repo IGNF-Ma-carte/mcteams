@@ -16,7 +16,25 @@
   border-bottom: 1px solid #eee;
   cursor: pointer;
   padding: .5em 2.5em .5em 6.5em;
+  height: 4em;
 }
+.mc-list ul li p {
+  margin: 0;
+  vertical-align: middle;
+  font-weight: bold;
+  font-size: 1.5em;
+  display: inline-block;
+  line-height: 1.3em;
+  max-height: 2.6em;
+  overflow: hidden;
+}
+.mc-list ul li .role {
+  height: 4em;
+  width: 0;
+  display: inline-block;
+  vertical-align: middle;
+}
+
 .mc-list ul li:hover {
   background-color: #eee;
 }
@@ -24,7 +42,7 @@
   position: absolute;
   top: 50%;
   left: 3em;
-  max-height: 2em;
+  max-height: 4.5em;
   max-width: 5em;
   margin-right: .5em;
   transform: translate(-50%, -50%);
