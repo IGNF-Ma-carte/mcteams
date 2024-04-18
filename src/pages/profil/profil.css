@@ -7,7 +7,7 @@
   min-width: 30em;
 }
 #profil article .buttons {
-  display: inline-block;
+  float: right;
   top: 1em;
   right: 0;
   width: 14em;
