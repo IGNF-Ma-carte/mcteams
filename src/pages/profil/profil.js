@@ -39,8 +39,8 @@ function showOrganization() {
       owner: 0,
       editor: 1,
       member: 2
-    }
-    e.members.sort((a,b) => {
+    };
+    (e.members || []).sort((a,b) => {
       // Sort by role
       const s = sorter[a.role] - sorter[b.role]
       if (s) return s;

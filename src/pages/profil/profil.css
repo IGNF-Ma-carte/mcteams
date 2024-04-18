@@ -70,16 +70,17 @@
 }
 .mc-user .mc-name {
   font-weight: 700;
-  width: calc(100% - 13em);
+  width: calc(100% - 10.5em);
   min-width: 10em;
 }
 .mc-user .mc-role {
-  width: 10em;
+  width: 8em;
 }
 .mc-user .mc-role select {
-  max-width: 100%;
+  letter-spacing: -.02em;
+  width: 100%;
+  padding: .5em .25em;
 }
-
 
 #profil .members .mc-list {
   max-width: 60em;

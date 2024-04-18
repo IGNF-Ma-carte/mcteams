@@ -6,19 +6,20 @@
   text-align: initial;
 }
 
-.mc-list ul {
+#home .mc-list ul {
   list-style: none;
   margin: 0;
   padding: 0;
 }
-.mc-list ul li {
+#home .mc-list ul li,
+#profil .mc-list ul li {
   position: relative;
   border-bottom: 1px solid #eee;
   cursor: pointer;
   padding: .5em 2.5em .5em 6.5em;
   height: 4em;
 }
-.mc-list ul li p {
+#home .mc-list ul li p {
   margin: 0;
   vertical-align: middle;
   font-weight: bold;
@@ -28,17 +29,12 @@
   max-height: 2.6em;
   overflow: hidden;
 }
-.mc-list ul li .role {
-  height: 4em;
-  width: 0;
-  display: inline-block;
-  vertical-align: middle;
-}
 
-.mc-list ul li:hover {
+#home .mc-list ul li:hover {
   background-color: #eee;
 }
-.mc-list ul li img {
+#home .mc-list ul li img,
+#profil .mc-list ul li img {
   position: absolute;
   top: 50%;
   left: 3em;
@@ -48,6 +44,13 @@
   transform: translate(-50%, -50%);
 }
 
+.mc-list ul li .role {
+  height: 4em;
+  width: 0;
+  display: inline-block;
+  vertical-align: middle;
+  padding: 0;
+}
 .mc-list .role:before {
   content: '\ea56';
   font-family: font-ign;
