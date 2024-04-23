@@ -74,7 +74,31 @@
 .ol-ext-dialog.update-author input[type="search"] {
   width: 100%;
 }
+.ol-ext-dialog.update-author .mc-list ul {
+  border-top: 1px solid #eee;
+  margin-top: .5em;
+}
+.ol-ext-dialog.update-author .mc-list ul li {
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  border: 0;
+  padding: .5em 1em;
+  position: relative;
+  overflow: hidden;
+  padding-left: 4.5em;
+  line-height: 1.5em;
+  border-bottom: 1px solid #eee;
+}
+.ol-ext-dialog.update-author .mc-list ul li img {
+  max-width: 3em;
+  max-height: 2.5em;
+  position: absolute;
+  top: 50%;
+  left: 2em;
+  transform: translate(-50%, -50%);
+}
 
 .ol-ext-dialog.mc-save-map [data-attr="share"] {
   display: none;
 }
+
