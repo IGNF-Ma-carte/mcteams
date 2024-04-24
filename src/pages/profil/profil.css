@@ -141,16 +141,23 @@
   width: 30em;
   overflow: visible;
 }
+.ol-ext-dialog.addMember .ol-content {
+  overflow: visible;
+}
 .ol-ext-dialog.addMember ul.mc-list {
   list-style: none;
   margin: 0;
   padding: 0;
   margin: .5em 0;
+  border-top: 1px solid #ccc;
 }
 .ol-ext-dialog.addMember input[type="text"] {
   width: 100%;
 }
 
+.ol-ext-dialog.addMember p {
+  margin-bottom: 0;
+}
 .ol-ext-dialog.addMember label {
   font-weight: bold;
   width: 5.5em;
@@ -165,7 +172,19 @@
 .ol-ext-dialog.addMember .mc-list li {
   padding-left: 4em;
   line-height: 3em;
+  overflow: hidden;
+  white-space: nowrap;
 }
+.ol-ext-dialog.addMember .mc-list li.nomember {
+  font-style: italic;
+  color: #999;
+  padding: 0 1em;
+}
+.ol-ext-dialog.addMember .mc-list[data-error] li.nomember {
+  color: #f45648;
+  font-weight: bold;
+}
+
 .ol-ext-dialog.addMember .mc-list  img {
   position: absolute;
   max-width: 3em;

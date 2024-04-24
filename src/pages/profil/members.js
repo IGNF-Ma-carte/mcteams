@@ -183,21 +183,30 @@ page.querySelector('button.addMember').addEventListener('click', () => {
       if (b==='submit') {
         const members = [];
         ul.querySelectorAll('li').forEach(l => {
-          members.push({ id: l.dataset.id, name: l.innerText })
+          if (l.dataset.id) {
+            members.push({ id: l.dataset.id, name: l.innerText })
+          }
         })
-        dialog.showWait('enregistrement en cours...')
-        addMembers(members, inputs.role.value)
+        if (members.length) {
+          dialog.showWait('enregistrement en cours...')
+          addMembers(members, inputs.role.value)
+        } else {
+          dialog.getContentElement().querySelector('ul.mc-list').dataset.error = '';
+        }
       }
     }
   })
   // New user
   const input = new UserInput(api, { target: dialog.getContentElement(), full: true } );
   // Result
+  element.create('P', { text: 'Membres à ajouter :', parent: dialog.getContentElement() })
   const ul = element.create('UL', { className: 'mc-list', parent: dialog.getContentElement() })
+  const nomember = element.create('LI', { className: 'nomember', text: 'aucun membre', parent: ul })
   input.on('select', e => {
     input.setUser(e.user.public_name)
     const isok = !ul.querySelector('[data-id="'+e.user.public_id+'"]')
     if (isok) {
+      nomember.remove();
       const li = element.create('LI', {
         text: e.user.public_name,
         'data-id': e.user.public_id,
