@@ -33,3 +33,6 @@ body[data-connected] .disconnected {
   font-size: 2em;
   animation: fa-spin 1s infinite steps(8);
 }
+.author-list .loading:before {
+  display: none;
+}

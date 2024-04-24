@@ -2,7 +2,8 @@
   text-transform: capitalize;
 }
 
-.mc-list-carte .filters .organization {
+.mc-list-carte .filters .organization,
+.mc-list-carte .mc-organization {
   display: none;
 }
 
