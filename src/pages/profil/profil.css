@@ -142,7 +142,7 @@
   overflow: visible;
 }
 .ol-ext-dialog.addMember .ol-content {
-  overflow: visible;
+  /* overflow: visible; */
 }
 .ol-ext-dialog.addMember ul.mc-list {
   list-style: none;
@@ -150,6 +150,8 @@
   padding: 0;
   margin: .5em 0;
   border-top: 1px solid #ccc;
+  max-height: calc(100vh - 21em);
+  overflow: auto;
 }
 .ol-ext-dialog.addMember input[type="text"] {
   width: 100%;
