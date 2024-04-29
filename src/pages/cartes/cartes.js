@@ -1,5 +1,5 @@
 import api from 'mcutils/api/api'
-import team from 'mcutils/api/organization';
+import team from 'mcutils/api/team';
 import pages from 'mcutils/charte/pages.js'
 import ListCarte from 'mcutils/api/ListCarte'
 import { getViewerURL, getEditorURL } from 'mcutils/api/serviceURL';

@@ -1,5 +1,5 @@
 import element from 'ol-ext/util/element'
-import team from 'mcutils/api/organization';
+import team from 'mcutils/api/team';
 import api from 'mcutils/api/api'
 import _T from 'mcutils/i18n/i18n'
 import pages from 'mcutils/charte/pages';
@@ -14,23 +14,23 @@ import md2html from 'mcutils/md/md2html';
 
 const page = pages.add('home', html, document.querySelector('.connected'));
 
-const orgaList = page.querySelector('ul[data-role="organizations"]')
+const teamList = page.querySelector('ul[data-role="teams"]')
 
-// Show user organization list
+// Show user team list
 function showList() {
-  orgaList.innerHTML = '';
+  teamList.innerHTML = '';
   const me = api.getMe();
-  const orga = me ? me.organizations : false;
-  if (orga && orga.length) {
-    orga.forEach(o => {
+  const teams = me ? me.organizations : false;
+  if (teams && teams.length) {
+    teams.forEach(o => {
       const li = element.create('LI', {
         className: o.public_id === team.getId() ? 'selected' : '',
-        'data-orga': o.public_id,
+        'data-team': o.public_id,
         click: () => {
           team.set(o);
           pages.show('equipe');
         },
-        parent: orgaList
+        parent: teamList
       })
       element.create('IMG', {
         src: o.profile_picture || '',
@@ -43,14 +43,14 @@ function showList() {
       })
       element.create('DIV', {
         class: 'role role_'+o.user_role,
-        title: _T('organization:role_'+o.user_role),
+        title: _T('team:role_'+o.user_role),
         parent: li
       })
     });
   } else {
     element.create('LI', {
       html: '<i>Vous n\'avez pas encore d\'équipe...</i>',
-      parent: orgaList
+      parent: teamList
     })
   }
 }
@@ -60,6 +60,10 @@ team.on('change', showList)
 team.on('change', () => {
   if (!team.getId()) {
     pages.show();
+  }
+  // Back to teams pages
+  if (/detail|atlas|cartes/.test(pages.getId())) {
+    pages.show('equipe')
   }
 })
 api.on('me', showList)
@@ -74,18 +78,18 @@ pages.on('change', () => {
   }
 })
 
-// Create orga
+// Create team
 page.querySelector('.create button').addEventListener('click', () => {
   dialog.show({
     title: 'Créer une équipe',
-    className: 'create-orga',
+    className: 'create-team',
     content: createDlg,
     buttons: { submit: _T('ok'), cancel: _T('cancel')},
     onButton: (b, inputs) => {
       if (b === 'submit') {
         if (inputs.name.value) {
           dialog.showWait('Création en cours');
-          api.newOrganization({ 
+          api.newTeam({ 
             name: inputs.name.value 
           }, o => {
             if (o.error) {

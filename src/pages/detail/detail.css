@@ -63,7 +63,7 @@
   line-height: normal;
   display: none;
 }
-[data-orga-role="owner"] #detail button.edit_author {
+[data-team-role="owner"] #detail button.edit_author {
   display: block;
 }
 

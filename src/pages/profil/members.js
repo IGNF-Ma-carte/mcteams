@@ -1,7 +1,7 @@
 import element from 'ol-ext/util/element'
 
 import api from 'mcutils/api/api'
-import team from 'mcutils/api/organization';
+import team from 'mcutils/api/team';
 import pages from 'mcutils/charte/pages.js'
 import ListTable from 'mcutils/api/ListTable';
 import UserInput from 'mcutils/api/UserInput'
@@ -64,13 +64,13 @@ list.drawItem = (user, li) => {
     ['owner', 'editor', 'member'].forEach(o => {
       element.create('OPTION', {
         value: o,
-        text: _T('organization:role_' + o),
+        text: _T('team:role_' + o),
         parent: roleSel
       })
     });
     roleSel.value = user.role
   } else {
-    roleElt.innerText = _T('organization:role_' + user.role)
+    roleElt.innerText = _T('team:role_' + user.role)
   }
 
   // Delete button
@@ -103,7 +103,7 @@ list.drawItem = (user, li) => {
 /** Change member role */
 function changeRole(user, r, li) {
   li.classList.add('loading')
-  api.setOrganizationMember(team.getId(), user.public_id, r, e => {
+  api.setTeamMemberRole(team.getId(), user.public_id, r, e => {
     if (!e.error) {
       user.role = r;
       li.querySelector('.role').className = 'role role_'+user.role;
@@ -122,7 +122,7 @@ function changeRole(user, r, li) {
 /** Remove a member */
 function removeMember(user, li) {
   if (li) li.classList.add('loading')
-  api.removeOrganizationMember(team.getId(), user.public_id, e => {
+  api.removeTeamMember(team.getId(), user.public_id, e => {
     if (e.error) {
       dialog.showAlert('Impossible de supprimer le membre...')
     } else if (user.public_id === api.getMe().public_id) {
@@ -142,7 +142,7 @@ function addMembers(members, role, errors) {
   // Next member
   const u = members.pop()
   if (u) {
-    api.addOrganizationMember(team.getId(), u.id, role, e => {
+    api.addTeamMember(team.getId(), u.id, role, e => {
       if (!e.error || e.status === 400) {
         if (e.status === 400) errors.push(u)
         addMembers(members, role, errors)
@@ -198,6 +198,7 @@ page.querySelector('button.addMember').addEventListener('click', () => {
   })
   // New user
   const input = new UserInput(api, { target: dialog.getContentElement(), full: true } );
+  input.searchInput.focus()
   // Result
   element.create('P', { text: 'Membres à ajouter :', parent: dialog.getContentElement() })
   const ul = element.create('UL', { className: 'mc-list', parent: dialog.getContentElement() })
@@ -232,7 +233,7 @@ page.querySelector('button.addMember').addEventListener('click', () => {
   ['owner', 'editor', 'member'].forEach(o => {
     element.create('OPTION', {
       value: o,
-      text: _T('organization:role_' + o),
+      text: _T('team:role_' + o),
       parent: sel
     })
   });

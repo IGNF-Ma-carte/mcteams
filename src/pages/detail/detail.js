@@ -1,7 +1,7 @@
 import _T from 'mcutils/i18n/i18n';
 import element from 'ol-ext/util/element'
 import api from 'mcutils/api/api'
-import team from 'mcutils/api/organization';
+import team from 'mcutils/api/team';
 import pages from 'mcutils/charte/pages.js'
 import md2html from 'mcutils/md/md2html';
 import dialog from 'mcutils/dialog/dialog'
@@ -231,9 +231,9 @@ function showCarte(carte, from) {
   page.querySelector('.actions button.delete').disabled = (carte.share !== 'private')
 }
 
-// First show > back to organization
+// First show > back to team page
 if (/^detail$|^atlas$/.test(pages.getId())) {
-  pages.show('equipes')
+  pages.show('equipe')
 }
 
 export { showCarte }

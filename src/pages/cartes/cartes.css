@@ -11,8 +11,8 @@
 .mc-list-carte .li-actions .detail {
   display: none;
 }
-[data-orga-role="editor"] #cartes .mc-list-carte .li-actions span,
-[data-orga-role="owner"] .mc-list-carte .li-actions span {
+[data-team-role="editor"] #cartes .mc-list-carte .li-actions span,
+[data-team-role="owner"] .mc-list-carte .li-actions span {
   display: inline-block;
 }
 

@@ -74,10 +74,10 @@
   background-color: #e1eefd!important;
 }
 
-.ol-ext-dialog.create-orga form {
+.ol-ext-dialog.create-team form {
   width: 30em;
 }
-.ol-ext-dialog.create-orga input[type="text"] {
+.ol-ext-dialog.create-team input[type="text"] {
   width: 100%;
 }
 

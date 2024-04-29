@@ -101,7 +101,7 @@
 #profil .admin {
   display: none;
 }
-[data-orga-role="owner"] #profil .admin {
+[data-team-role="owner"] #profil .admin {
   display: unset;
 }
 

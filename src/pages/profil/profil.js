@@ -1,11 +1,11 @@
 import _T from 'mcutils/i18n/i18n';
 import api from 'mcutils/api/api'
-import team from 'mcutils/api/organization';
+import team from 'mcutils/api/team';
 import md2html from 'mcutils/md/md2html'
 import dialog from 'mcutils/dialog/dialog'
 import MDEditor from 'mcutils/md/MDEditor'
 import InputMedia from 'mcutils/control/InputMedia'
-import { getOrgaURL } from 'mcutils/api/serviceURL';
+import { getTeamURL } from 'mcutils/api/serviceURL';
 
 import { page, list } from './members'
 
@@ -19,7 +19,6 @@ team.on('change', showTeam)
 
 // Display team
 function showTeam() {
-  document.body.dataset.orgaRole = team.getUserRole()
   page.querySelector('[data-attr="name"]').innerText = team.getName()
   page.querySelector('[data-attr="profile_picture"] img').src = team.getImage()
   page.querySelector('[data-attr="cover_picture"] img').src = team.getCoverImage()
@@ -31,7 +30,7 @@ function showTeam() {
   // Get members
   list.clear()
   list.element.dataset.waiting = '';
-  api.getOrganization(team.getId(), e => {
+  api.getTeam(team.getId(), e => {
     delete list.element.dataset.waiting;
     if (e.error) return;
     // Alphabetic order
@@ -54,19 +53,19 @@ function showTeam() {
     page.querySelector('[data-attr="presentation"]').innerHTML = md2html(e.presentation)
     // general
     const d = new Date(e.created_at)
-    content.querySelector('#team .date').innerText = d.toLocaleDateString(undefined, {
+    content.querySelector('#equipe .date').innerText = d.toLocaleDateString(undefined, {
       year: 'numeric',
       month: 'long',
       day: 'numeric'
     })
-    content.querySelector('#team .nbMembers').innerText = e.nb_members
-    content.querySelector('#team .presentation').innerHTML = md2html(e.presentation)
+    content.querySelector('#equipe .nbMembers').innerText = e.nb_members
+    content.querySelector('#equipe .presentation').innerHTML = md2html(e.presentation)
   })
 }
 
 // See online
 page.querySelector('.onlineProfile').addEventListener('click', () => {
-  window.open(getOrgaURL(team), '_blank')
+  window.open(getTeamURL(team), '_blank')
 })
 
 // Update 
@@ -129,7 +128,7 @@ function updateTeam(upd) {
     return;
   }
   // Set attributes
-  api.setOrganization(team.getId(), v[0], v[1], o => {
+  api.setTeam(team.getId(), v[0], v[1], o => {
     if (!o.error) {
       team.get()[o.attribute] = o.value
       updateTeam(upd)
@@ -152,7 +151,7 @@ page.querySelector('.danger .delete').addEventListener('click', () => {
     b => {
       if (b==='ok') {
         dialog.showWait('Supression en cours...');
-        api.deleteOrganization(team.getId(), o => {
+        api.deleteTeam(team.getId(), o => {
           if (o.error) {
             dialog.showAlert('Opération impossible')
           } else {
