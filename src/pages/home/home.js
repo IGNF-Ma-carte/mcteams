@@ -1,5 +1,5 @@
 import element from 'ol-ext/util/element'
-import organization from 'mcutils/api/organization';
+import team from 'mcutils/api/organization';
 import api from 'mcutils/api/api'
 import _T from 'mcutils/i18n/i18n'
 import pages from 'mcutils/charte/pages';
@@ -24,11 +24,11 @@ function showList() {
   if (orga && orga.length) {
     orga.forEach(o => {
       const li = element.create('LI', {
-        className: o.public_id === organization.getId() ? 'selected' : '',
+        className: o.public_id === team.getId() ? 'selected' : '',
         'data-orga': o.public_id,
         click: () => {
-          organization.set(o);
-          pages.show('organization');
+          team.set(o);
+          pages.show('equipe');
         },
         parent: orgaList
       })
@@ -49,27 +49,27 @@ function showList() {
     });
   } else {
     element.create('LI', {
-      html: '<i>Vous n\'avez pas encore d\'organisation...</i>',
+      html: '<i>Vous n\'avez pas encore d\'équipe...</i>',
       parent: orgaList
     })
   }
 }
 
-// Refresh organizations list
-organization.on('change', showList)
-organization.on('change', () => {
-  if (!organization.getId()) {
+// Refresh team list
+team.on('change', showList)
+team.on('change', () => {
+  if (!team.getId()) {
     pages.show();
   }
 })
 api.on('me', showList)
 
-// No organization
-if (!organization.getId() && pages.getId() !== 'home') {
+// No team
+if (!team.getId() && pages.getId() !== 'home') {
   pages.show();
 }
 pages.on('change', () => {
-  if (!organization.getId() && pages.getId() !== 'home') {
+  if (!team.getId() && pages.getId() !== 'home') {
     pages.show();
   }
 })
@@ -77,7 +77,7 @@ pages.on('change', () => {
 // Create orga
 page.querySelector('.create button').addEventListener('click', () => {
   dialog.show({
-    title: 'Créer une organisation',
+    title: 'Créer une équipe',
     className: 'create-orga',
     content: createDlg,
     buttons: { submit: _T('ok'), cancel: _T('cancel')},
@@ -91,13 +91,13 @@ page.querySelector('.create button').addEventListener('click', () => {
             if (o.error) {
               // Handle error
               if (o.status === 403) {
-                dialog.showAlert('Impossible de créer l\'organisation :<br/>une organisation avec le même nom existe déjà...')
+                dialog.showAlert('Impossible de créer l\'équipe :<br/>une équipe avec le même nom existe déjà...')
               } else {
-                dialog.showAlert('Impossible de créer une organisation...')
+                dialog.showAlert('Impossible de créer une équipe...')
               }
             } else {
               dialog.hide();
-              organization.set({
+              team.set({
                 public_id: o.public_id,
                 name: o.name,
                 profile_picture: o.profile_picture,
@@ -115,5 +115,5 @@ page.querySelector('.create button').addEventListener('click', () => {
 })
 
 /* DBUG */
-window.organization = organization
+window.team = team
 /**/

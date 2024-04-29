@@ -1,6 +1,6 @@
 import _T from 'mcutils/i18n/i18n';
 import api from 'mcutils/api/api'
-import organization from 'mcutils/api/organization';
+import team from 'mcutils/api/organization';
 import md2html from 'mcutils/md/md2html'
 import dialog from 'mcutils/dialog/dialog'
 import MDEditor from 'mcutils/md/MDEditor'
@@ -15,23 +15,23 @@ import pages from 'mcutils/charte/pages';
 
 const content = document.querySelector('.connected')
 
-organization.on('change', showOrganization)
+team.on('change', showTeam)
 
-// Display organization
-function showOrganization() {
-  document.body.dataset.orgaRole = organization.getUserRole()
-  page.querySelector('[data-attr="name"]').innerText = organization.getName()
-  page.querySelector('[data-attr="profile_picture"] img').src = organization.getImage()
-  page.querySelector('[data-attr="cover_picture"] img').src = organization.getCoverImage()
+// Display team
+function showTeam() {
+  document.body.dataset.orgaRole = team.getUserRole()
+  page.querySelector('[data-attr="name"]').innerText = team.getName()
+  page.querySelector('[data-attr="profile_picture"] img').src = team.getImage()
+  page.querySelector('[data-attr="cover_picture"] img').src = team.getCoverImage()
   page.querySelector('[data-attr="presentation"]').innerHTML =
-  content.querySelector('#organization .presentation').innerHTML = md2html(organization.getPresentation());
-  content.querySelectorAll('#organization span').forEach(sp => {
+  content.querySelector('#equipe .presentation').innerHTML = md2html(team.getPresentation());
+  content.querySelectorAll('#equipe span').forEach(sp => {
     sp.innerText= '';
   })
   // Get members
   list.clear()
   list.element.dataset.waiting = '';
-  api.getOrganization(organization.getId(), e => {
+  api.getOrganization(team.getId(), e => {
     delete list.element.dataset.waiting;
     if (e.error) return;
     // Alphabetic order
@@ -48,30 +48,30 @@ function showOrganization() {
       if (a.public_name > b.public_name) return 1;
       return 0
     })
-    // Show organization
+    // Show team
     list.drawList(e.members)
-    organization.get().presentation = e.presentation;
+    team.get().presentation = e.presentation;
     page.querySelector('[data-attr="presentation"]').innerHTML = md2html(e.presentation)
     // general
     const d = new Date(e.created_at)
-    content.querySelector('#organization .date').innerText = d.toLocaleDateString(undefined, {
+    content.querySelector('#team .date').innerText = d.toLocaleDateString(undefined, {
       year: 'numeric',
       month: 'long',
       day: 'numeric'
     })
-    content.querySelector('#organization .nbMembers').innerText = e.nb_members
-    content.querySelector('#organization .presentation').innerHTML = md2html(e.presentation)
+    content.querySelector('#team .nbMembers').innerText = e.nb_members
+    content.querySelector('#team .presentation').innerHTML = md2html(e.presentation)
   })
 }
 
 // See online
 page.querySelector('.onlineProfile').addEventListener('click', () => {
-  window.open(getOrgaURL(organization), '_blank')
+  window.open(getOrgaURL(team), '_blank')
 })
 
 // Update 
 page.querySelector('.editProfile').addEventListener('click', () => {
-  if (!organization.isOwner()) {
+  if (!team.isOwner()) {
     dialog.showAlert('Action non autorisée')
     return;
   }
@@ -84,33 +84,33 @@ page.querySelector('.editProfile').addEventListener('click', () => {
       if (b === 'submit') {
         dialog.showWait('Mise à jour...');
         const upd = [];
-        if (inputs.name.value !== organization.getName()) {
+        if (inputs.name.value !== team.getName()) {
           upd.push([ 'name', inputs.name.value ]);
         }
-        if (inputs.presentation.value !== organization.getPresentation()) {
+        if (inputs.presentation.value !== team.getPresentation()) {
           upd.push([ 'presentation', inputs.presentation.value ]);
         }
-        if (inputs.logo.value !== organization.getImage()) {
+        if (inputs.logo.value !== team.getImage()) {
           upd.push([ 'profile_picture', inputs.logo.value ]);
         }
-        if (inputs.cover.value !== organization.getCoverImage()) {
+        if (inputs.cover.value !== team.getCoverImage()) {
           upd.push([ 'cover_picture', inputs.cover.value ]);
         }
-        updateOrganization(upd)
+        updateTeam(upd)
       }
     }
   })
   // Name
-  dialog.getContentElement().querySelector('.name').value = organization.getName()
+  dialog.getContentElement().querySelector('.name').value = team.getName()
   // Presentation
-  dialog.getContentElement().querySelector('.presentation').value = organization.getPresentation()
+  dialog.getContentElement().querySelector('.presentation').value = team.getPresentation()
   new MDEditor({
     input: dialog.getContentElement().querySelector('.presentation')
   });
   // Media
   ['logo', 'cover'].forEach(cl => {
     let input = dialog.getContentElement().querySelector('input.'+cl)
-    input.value = (cl==='logo' ? organization.getImage() : organization.getCoverImage())
+    input.value = (cl==='logo' ? team.getImage() : team.getCoverImage())
     new InputMedia({
       input: input,
       fullpath: true,
@@ -119,23 +119,23 @@ page.querySelector('.editProfile').addEventListener('click', () => {
   })
 })
 
-// Update organization attributes
-function updateOrganization(upd) {
+// Update team attributes
+function updateTeam(upd) {
   const v = upd.shift();
   // end
   if (!v) {
     dialog.hide();
-    organization.set(organization.get())
+    team.set(team.get())
     return;
   }
   // Set attributes
-  api.setOrganization(organization.getId(), v[0], v[1], o => {
+  api.setOrganization(team.getId(), v[0], v[1], o => {
     if (!o.error) {
-      organization.get()[o.attribute] = o.value
-      updateOrganization(upd)
+      team.get()[o.attribute] = o.value
+      updateTeam(upd)
     } else {
       if (o.status === 403) {
-        dialog.showAlert('Une organisation avec le même nom existe déjà...')
+        dialog.showAlert('Une équipe avec le même nom existe déjà...')
       } else {
         dialog.showAlert('Impossible de mettre à jour...')
       }
@@ -143,16 +143,16 @@ function updateOrganization(upd) {
   })
 }
 
-// Delete Organization
+// Delete team
 page.querySelector('.danger .delete').addEventListener('click', () => {
   dialog.showAlert(
     'Attention, cette opération est irréversible.<br/>'
-    + 'Les données associées à cette organisation (carte, images, etc.) seront définitvement perdues.',
+    + 'Les données associées à cette équipe (carte, images, etc.) seront définitvement perdues.',
     { ok: 'Supprimer quand même', submit: _T('cancel') },
     b => {
       if (b==='ok') {
         dialog.showWait('Supression en cours...');
-        api.deleteOrganization(organization.getId(), o => {
+        api.deleteOrganization(team.getId(), o => {
           if (o.error) {
             dialog.showAlert('Opération impossible')
           } else {

@@ -1,7 +1,7 @@
 import element from 'ol-ext/util/element'
 
 import api from 'mcutils/api/api'
-import organization from 'mcutils/api/organization';
+import team from 'mcutils/api/organization';
 import pages from 'mcutils/charte/pages.js'
 import ListTable from 'mcutils/api/ListTable';
 import UserInput from 'mcutils/api/UserInput'
@@ -38,13 +38,13 @@ list.drawItem = (user, li) => {
   })
   // Owner can change member info
   element.create('DIV', { className: 'role role_'+user.role, parent: li })
-  if (organization.isOwner()) {
+  if (team.isOwner()) {
     // Owner can select role
     const roleSel = element.create('SELECT', {
       change: () => {
         if (user.public_id === api.getMe().public_id) {
           dialog.showAlert(
-            'Attention si vous n\'êtes plus propriétaire de cette organisation,<br/> vous ne pourrez plus y accéder ou l\'administrer...',
+            'Attention si vous n\'êtes plus propriétaire de cette équipe,<br/> vous ne pourrez plus y accéder ou l\'administrer...',
             { ok: _T('ok'), submit: _T('cancel') },
             b => {
               if (b==='ok') {
@@ -74,16 +74,16 @@ list.drawItem = (user, li) => {
   }
 
   // Delete button
-  if (organization.isOwner()) {
+  if (team.isOwner()) {
     element.create('BUTTON', {
       className: 'delete',
-      title: 'Retirer ce membre de l\'organisation',
+      title: 'Retirer ce membre de l\'équipe',
       html: '<i class="fi-delete"></i>',
       click: () => {
         // Check user
         if (user.public_id === api.getMe().public_id) {
           dialog.showAlert(
-            'Attention si vous vous supprimez de cette organisation,<br/> vous ne pourrez plus y accéder ou l\'administrer...',
+            'Attention si vous vous supprimez de cette équipe,<br/> vous ne pourrez plus y accéder ou l\'administrer...',
             { ok: _T('ok'), submit: _T('cancel') },
             b => {
               if (b==='ok') removeMember(user, li)
@@ -103,7 +103,7 @@ list.drawItem = (user, li) => {
 /** Change member role */
 function changeRole(user, r, li) {
   li.classList.add('loading')
-  api.setOrganizationMember(organization.getId(), user.public_id, r, e => {
+  api.setOrganizationMember(team.getId(), user.public_id, r, e => {
     if (!e.error) {
       user.role = r;
       li.querySelector('.role').className = 'role role_'+user.role;
@@ -122,14 +122,14 @@ function changeRole(user, r, li) {
 /** Remove a member */
 function removeMember(user, li) {
   if (li) li.classList.add('loading')
-  api.removeOrganizationMember(organization.getId(), user.public_id, e => {
+  api.removeOrganizationMember(team.getId(), user.public_id, e => {
     if (e.error) {
       dialog.showAlert('Impossible de supprimer le membre...')
     } else if (user.public_id === api.getMe().public_id) {
       pages.show();
       location.reload()
     }
-    organization.changed()
+    team.changed()
   })
 }
 
@@ -142,18 +142,18 @@ function addMembers(members, role, errors) {
   // Next member
   const u = members.pop()
   if (u) {
-    api.addOrganizationMember(organization.getId(), u.id, role, e => {
+    api.addOrganizationMember(team.getId(), u.id, role, e => {
       if (!e.error || e.status === 400) {
         if (e.status === 400) errors.push(u)
         addMembers(members, role, errors)
       } else {
         dialog.showAlert('Impossible d\'ajouter un membre')
-        organization.changed()
+        team.changed()
       }
     }, refresh)
   } else {
     // No more member > refresh page
-    organization.changed()
+    team.changed()
     // Chek errors
     if (errors.length) {
       dialog.showAlert('Certains membres étaient déjà dans l\'oganisation et n\'ont pas étés ajoutés')

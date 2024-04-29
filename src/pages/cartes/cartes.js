@@ -1,5 +1,5 @@
 import api from 'mcutils/api/api'
-import organization from 'mcutils/api/organization';
+import team from 'mcutils/api/organization';
 import pages from 'mcutils/charte/pages.js'
 import ListCarte from 'mcutils/api/ListCarte'
 import { getViewerURL, getEditorURL } from 'mcutils/api/serviceURL';
@@ -27,7 +27,7 @@ function showCartes(type, context) {
   pages.on('change', p => {
     if (p.id === type) {
       if (p.from !== 'detail') {
-        list.set('organization', organization.getId())
+        list.set('organization', team.getId())
         list.clear();
         list.search();
       } else {
@@ -36,8 +36,8 @@ function showCartes(type, context) {
     }
   })
   // First show
-  if (pages.getId() === type && organization.getId()) {
-    list.set('organization', organization.getId())
+  if (pages.getId() === type && team.getId()) {
+    list.set('organization', team.getId())
     list.search();
   }
 
@@ -70,8 +70,8 @@ function showCartes(type, context) {
   // Enable actions
   /*
   list.on('draw:item', e => {
-    if (organization.isOwner() || api.getMe().public_id === e.item.user_id) {
-      e.element.dataset.user = organization.getUserRole()
+    if (team.isOwner() || api.getMe().public_id === e.item.user_id) {
+      e.element.dataset.user = team.getUserRole()
     }
   })
   */

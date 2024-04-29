@@ -1,0 +1,52 @@
+#equipe .current-orga a:before {
+  display: none;
+}
+
+#equipe [data-ref="profil"] article {
+  background-color: #3993f3;
+  color: #fff;
+}
+#equipe [data-ref="profil"] article a {
+  color: #fff!important;
+}
+#equipe [data-ref="profil"] article a:before {
+  background-color: #fff;
+}
+
+#equipe .info {
+  display: grid;
+  grid-gap: 1rem;
+  margin-bottom: 5rem;;
+}
+#equipe .info h2 {
+  font-size: 2rem;
+}
+#equipe .info p {
+  margin: 0;
+  font-weight: bold;
+}
+#equipe .info p span {
+  font-weight: normal;
+}
+
+#equipe .info > div {
+  background-color: #f4f6f8;
+  padding: 3rem;
+}
+#equipe .info > div:first-child {
+  grid-column: 1 / 4;
+}
+#equipe .info > div:last-child {
+  grid-column: 4 / 5;
+}
+
+[data-orga-role="member"] #equipe [data-ref="maps"],
+[data-orga-role="member"] #equipe [data-ref="medias"] {
+  display: none;
+}
+
+[data-orga-role="owner"] #equipe h2.member,
+[data-orga-role="editor"] #equipe h2.owner,
+[data-orga-role="member"] #equipe h2.owner {
+  display: none;
+}

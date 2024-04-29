@@ -7,7 +7,7 @@ import { connectDialog } from 'mcutils/charte/macarte';
 
 // Pages
 import './pages/home/home'
-import './pages/organization/organization'
+import './pages/team/teams'
 import './pages/atlas/atlas'
 import './pages/cartes/cartes'
 import './pages/profil/profil'

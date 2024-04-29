@@ -3,6 +3,6 @@
   "server1": "https://localhost.ign.fr/macartegpf-api/",
   "server": "https://macarte.mut-dev.ign.fr/",
   "viewer0": "https://ignf-ma-carte.github.io/mcviewer/?map=$ID&$NOTITLE",
-  "orgaProfile": "https://ignf-ma-carte.github.io/mcatlas/organization.html?orga=$NAME",
+  "orgaProfile": "https://ignf-ma-carte.github.io/mcatlas/team.html?orga=$NAME",
   "viewer": "https://qlf-macarte.ign.fr/carte/$ID/$TITLE?$NOTITLE"
 }
