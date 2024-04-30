@@ -2,9 +2,9 @@ version: "3"
 
 services:
   web:
-    image: macarte_moncompte:latest
+    image: macarte_mesequipes:latest
     build: .
-    container_name: macarte_moncompte
+    container_name: macarte_mesequipes
     restart: always
     ports: 
       - 8086:8080
