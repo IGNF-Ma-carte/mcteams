@@ -8,7 +8,7 @@ COPY .docker/apache-ports.conf /etc/apache2/ports.conf
 
 RUN a2enmod rewrite remoteip alias headers
 
-COPY --chown=www-data:www-data ./docs /opt/mcorganization/
-WORKDIR /opt/mcorganization
+COPY --chown=www-data:www-data ./docs /opt/mcteams/
+WORKDIR /opt/mcteams
 
 EXPOSE 8080
