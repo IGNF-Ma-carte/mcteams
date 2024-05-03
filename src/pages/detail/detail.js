@@ -198,7 +198,10 @@ function showCarte(carte, from) {
         break;
       }
       case 'A': {
-        a.innerText = a.href = carte[attr] || '';
+        let  url = carte['attr'];
+        if (attr === 'view_url') url = getViewerURL(carte)
+        if (attr === 'edit_url') url = getEditorURL(carte)
+        a.innerText = a.href = url || '';
         break;
       }
       case 'IMG': {
