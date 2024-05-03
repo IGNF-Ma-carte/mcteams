@@ -146,7 +146,7 @@ function updateTeam(upd) {
 page.querySelector('.danger .delete').addEventListener('click', () => {
   dialog.showAlert(
     'Attention, cette opération est irréversible.<br/>'
-    + 'Les données associées à cette équipe (carte, images, etc.) seront définitvement perdues.',
+    + 'Les données associées à cette équipe (carte, images, etc.) seront définitivement perdues.',
     { ok: 'Supprimer quand même', submit: _T('cancel') },
     b => {
       if (b==='ok') {
