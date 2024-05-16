@@ -7,6 +7,7 @@ import ListTable from 'mcutils/api/ListTable';
 import UserInput from 'mcutils/api/UserInput'
 import dialog from 'mcutils/dialog/dialog'
 import _T from 'mcutils/i18n/i18n';
+import md2html from 'mcutils/md/md2html';
 
 import html from './profil-page.html'
 
@@ -25,6 +26,9 @@ list.drawItem = (user, li) => {
     text: user.public_name,
     parent: li
   })
+  if (user.active === false) {
+    li.dataset.inactive = '';
+  }
   if (user.profile_picture) {
     element.create('IMG', {
       src: user.profile_picture,
@@ -37,7 +41,11 @@ list.drawItem = (user, li) => {
     parent: li
   })
   // Owner can change member info
-  element.create('DIV', { className: 'role role_'+user.role, parent: li })
+  element.create('DIV', { 
+    className: 'role role_'+user.role, 
+    title: _T('team:role_' + user.role),
+    parent: li
+  })
   if (team.isOwner()) {
     // Owner can select role
     const roleSel = element.create('SELECT', {
@@ -98,6 +106,26 @@ list.drawItem = (user, li) => {
       parent: li
     })
   }
+}
+
+// Show member in the list sorted by roles
+list.setMembers = function(members) {
+  // Alphabetic order
+  const sorter = {
+    owner: 0,
+    editor: 1,
+    member: 2
+  };
+  (members || []).sort((a,b) => {
+    // Sort by role
+    const s = sorter[a.role] - sorter[b.role]
+    if (s) return s;
+    if (a.public_name < b.public_name) return -1;
+    if (a.public_name > b.public_name) return 1;
+    return 0
+  })
+  // Show team
+  list.drawList(members)
 }
 
 /** Change member role */

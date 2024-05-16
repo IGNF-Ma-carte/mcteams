@@ -50,6 +50,7 @@ page.querySelector('button.edit_author').addEventListener('click', () => {
     target: content
   })
   list.drawItem = (user, li) => {
+    if (user.active === false) li.dataset.inactive = '';
     element.create('DIV', {
       className : 'mc-name',
       text: user.public_name,
@@ -91,7 +92,13 @@ page.querySelector('button.edit_author').addEventListener('click', () => {
       dialog.close();
       page.querySelector('[data-attr="author"]').parentNode.classList.add('loading')
       api.updateMap(currentCarte.edit_id, { creator_id: user.public_id }, e => {
-        if (!e.error) {
+        if (e.error) {
+          switch(e.status) {
+            case 403: {
+              dialog.showAlert('Cet utilisateur ne peut pas être auteur de la carte.')
+            }
+          }
+        } else {
           page.querySelector('[data-attr="author"]').innerText = user.public_name
         }
         page.querySelector('[data-attr="author"]').parentNode.classList.remove('loading')

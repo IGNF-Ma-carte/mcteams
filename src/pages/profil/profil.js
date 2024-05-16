@@ -30,25 +30,11 @@ function showTeam() {
   // Get members
   list.clear()
   list.element.dataset.waiting = '';
+  // Get team members
   api.getTeam(team.getId(), e => {
     delete list.element.dataset.waiting;
     if (e.error) return;
-    // Alphabetic order
-    const sorter = {
-      owner: 0,
-      editor: 1,
-      member: 2
-    };
-    (e.members || []).sort((a,b) => {
-      // Sort by role
-      const s = sorter[a.role] - sorter[b.role]
-      if (s) return s;
-      if (a.public_name < b.public_name) return -1;
-      if (a.public_name > b.public_name) return 1;
-      return 0
-    })
-    // Show team
-    list.drawList(e.members)
+    list.setMembers(e.members)
     team.get().presentation = e.presentation;
     page.querySelector('[data-attr="presentation"]').innerHTML = md2html(e.presentation)
     // general
