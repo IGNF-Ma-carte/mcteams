@@ -82,7 +82,7 @@ list.drawItem = (user, li) => {
   }
 
   // Delete button
-  if (team.isOwner()) {
+  if (team.isOwner() || (api.getMe() && user.public_id === api.getMe().public_id)) {
     element.create('BUTTON', {
       className: 'delete',
       title: 'Retirer ce membre de l\'équipe',
@@ -90,14 +90,16 @@ list.drawItem = (user, li) => {
       click: () => {
         // Check user
         if (user.public_id === api.getMe().public_id) {
-          dialog.showAlert(
-            'Attention si vous vous supprimez de cette équipe,<br/> vous ne pourrez plus y accéder ou l\'administrer...',
-            { ok: _T('ok'), submit: _T('cancel') },
-            b => {
+          dialog.show({
+            className: 'alert',
+            title: 'Quitter l\'équipe',
+            content: 'Attention si vous quittez cette équipe,<br/> vous ne pourrez plus y accéder ou l\'administrer...',
+            buttons: { ok: _T('ok'), submit: _T('cancel') },
+            onButton: b => {
               if (b==='ok') removeMember(user, li)
               dialog.hide()
             }
-          )
+        })
         } else {
           removeMember(user, li)
         }

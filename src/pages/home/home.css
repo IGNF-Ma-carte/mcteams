@@ -87,3 +87,14 @@ article.danger {
   );
   border: 2px solid rgba(241, 131, 69, 1);
 }
+
+.ol-ext-dialog.activate-member img.logo {
+  max-width: 5em;
+  float: left;
+  margin-right: .5em;
+}
+.ol-ext-dialog.activate-member .ol-content > div > div:first-child {
+  margin-bottom: .5em;
+  padding-bottom: .5em;
+  border-bottom: 1px solid #999;
+}

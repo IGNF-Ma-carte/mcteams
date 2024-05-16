@@ -58,29 +58,11 @@
 .mc-user li select {
   padding: .5rem 1.5rem
 }
-#profil .mc-user ul li[data-inactive] {
-  background-image: repeating-linear-gradient(45deg,
-    rgba(0,0,0,.1),
-    rgba(0,0,0,.1) 10px,
-    transparent 10px,
-    transparent 20px
-  );
-}
+
 #profil .mc-user ul li[data-inactive] img {
   opacity: .7;
 }
-#profil .mc-user ul li[data-inactive]:before {
-  content: "Membre inactif";
-  font-size: 0.85em;
-  position: absolute;
-  top: 0;
-  right: 0;
-  background-color: #f18345;
-  color: #fff;
-  padding: 0 .5em;
-  z-index: 1;
-  line-height: 1.4em;
-}
+
 #profil .mc-user ul li.loading:before {
   top: 1em;
   right: 6.5em;

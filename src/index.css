@@ -36,3 +36,24 @@ body[data-connected] .disconnected {
 .author-list .loading:before {
   display: none;
 }
+
+li[data-inactive] {
+  background-image: repeating-linear-gradient(45deg,
+    rgba(0,0,0,.1),
+    rgba(0,0,0,.1) 10px,
+    transparent 10px,
+    transparent 20px
+  );
+}
+li[data-inactive]:before {
+  content: "Membre inactif";
+  color: #fff;
+  z-index: 1;
+  background-color: #f18345;
+  padding: 0 .5em;
+  font-size: .8em;
+  position: absolute;
+  top: 0;
+  right: 0;  
+  line-height: 1.4em;
+}

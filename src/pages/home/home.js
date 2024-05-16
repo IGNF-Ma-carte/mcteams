@@ -22,16 +22,76 @@ function showList() {
   const me = api.getMe();
   const teams = me ? me.organizations : false;
   if (teams && teams.length) {
+    // Sort teams by active / date
+    teams.sort((a,b) => {
+      if (!a.active && b.active) return -1;
+      if (a.active && !b.active) return 1;
+      if (a.updated_at.date < b.updated_at.date) return -1;
+      if (a.updated_at.date > b.updated_at.date) return 1;
+      return 0;
+    })
+    // List of teams
     teams.forEach(o => {
       const li = element.create('LI', {
         className: o.public_id === team.getId() ? 'selected' : '',
         'data-team': o.public_id,
         click: () => {
-          team.set(o);
-          pages.show('equipe');
+          if (o.active !== false) {
+            // Show team
+            team.set(o);
+            pages.show('equipe');
+          } else {
+            dialog.showWait('chargement...')
+            api.getTeam(o.public_id, team => {
+              // Join the team
+              const content = element.create('DIV')
+              element.create('DIV', {
+                html: 'Vous avez été invité à participer à l\'équipe <b></b> en tant que <i>' + _T('team:role_'+o.user_role) + '</i>.',
+                parent: content
+              })
+              content.querySelector('b').innerText = o.name;
+              // Team info
+              if (o.profile_picture) {
+                element.create('IMG', {
+                  className: 'logo',
+                  src: o.profile_picture,
+                  parent: content
+                })
+              }
+              element.create('DIV', {
+                className: 'md',
+                html: md2html(team.presentation),
+                parent: content
+              })
+              // Dialog
+              dialog.show({
+                title: 'Rejoindre '+o.name,
+                className: 'activate-member',
+                content: content,
+                buttons: { submit: 'Accepter', no: 'Refuser l\'inviation'},
+                onButton: b => {
+                  dialog.showWait('Opération en cours...')
+                  if (b === 'submit') {
+                    api.activateTeamMember(o.public_id, () => {
+                      location.reload();
+                    })
+                  } else if (b === 'no') {
+                    api.removeTeamMember(o.public_id, api.getMe().public_id, e => {
+                      if (e.error) {
+                        dialog.showAlert('Impossible de supprimer le membre...')
+                      } else {
+                        location.reload()
+                      }
+                    })
+                  }
+                }
+              })
+            })
+          } 
         },
         parent: teamList
       })
+      if (o.active === false) li.dataset.inactive = '';
       element.create('IMG', {
         src: o.profile_picture || '',
         parent: li
@@ -95,6 +155,8 @@ page.querySelector('.create button').addEventListener('click', () => {
             if (o.error) {
               // Handle error
               if (o.status === 403) {
+                dialog.showAlert('Vous n\'êtes pas autorisé à faire cette opération')
+              } else if (o.status === 409) {
                 dialog.showAlert('Impossible de créer l\'équipe :<br/>une équipe avec le même nom existe déjà...')
               } else {
                 dialog.showAlert('Impossible de créer une équipe...')

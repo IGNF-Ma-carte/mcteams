@@ -120,6 +120,8 @@ function updateTeam(upd) {
       updateTeam(upd)
     } else {
       if (o.status === 403) {
+        dialog.showAlert('Vous n\'êtes pas autorisé à faire cette opération')
+      } else if (o.status === 409) {
         dialog.showAlert('Une équipe avec le même nom existe déjà...')
       } else {
         dialog.showAlert('Impossible de mettre à jour...')
