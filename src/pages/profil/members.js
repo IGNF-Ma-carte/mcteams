@@ -7,11 +7,39 @@ import ListTable from 'mcutils/api/ListTable';
 import UserInput from 'mcutils/api/UserInput'
 import dialog from 'mcutils/dialog/dialog'
 import _T from 'mcutils/i18n/i18n';
-import md2html from 'mcutils/md/md2html';
 
 import html from './profil-page.html'
 
 const page = pages.add('profil', html, document.querySelector('.connected'))
+
+/* Add list */
+const teamLinks = page.querySelector('.mc-links');
+['member','editor'].forEach(t => {
+  function updateLinks(e) {
+    if (!e.error) {
+      teamLinks.querySelector('.'+t+'-link a').innerText = e.value || 'pas de lien'
+    }
+    teamLinks.querySelector('.'+t+'-link').classList.remove('loading')
+  }
+  teamLinks.querySelector('.'+t+'-link button.change').addEventListener('click', () => {
+    teamLinks.querySelector('.'+t+'-link').classList.add('loading')
+    api.setTeamLink(team.getId(), t, updateLinks)
+  })
+  teamLinks.querySelector('.'+t+'-link button.remove').addEventListener('click', () => {
+    teamLinks.querySelector('.'+t+'-link').classList.add('loading')
+    api.removeTeamLink(team.getId(), t, updateLinks);
+  })
+})
+// Uopdate links on change
+team.on('change', () => {
+  if (team.getUserRole() === 'owner') {
+    api.getTeamLinks(team.getId(), e => {
+      teamLinks.querySelector('.member-link a').innerText = e.link_as_member || 'pas de lien'
+      teamLinks.querySelector('.editor-link a').innerText = e.link_as_editor || 'pas de lien'
+      teamLinks.querySelector('.pattern-link input').value = e.mail_pattern || ''
+    })
+  }
+})
 
 /* Members List */
 const list = new ListTable({
