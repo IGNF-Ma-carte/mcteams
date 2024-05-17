@@ -64,9 +64,45 @@
 }
 
 #profil .mc-user ul li.loading:before {
-  top: 1em;
+  background-color: unset;
+  padding: 0;
+  top: .5em;
   right: 6.5em;
+  color: #091625;
 }
+
+#profil .mc-links {
+  display: none;
+}
+#profil .mc-links a {
+  user-select: all;
+}
+[data-team-role="owner"] #profil .mc-links {
+  display: block;
+}
+
+#profil .mc-links button {
+  float: right;
+}
+#profil .mc-links button.button-colored {
+  min-width: unset;
+  line-height: unset;
+  padding: .7rem 1.5rem;
+  vertical-align: middle;
+  float: none;
+}
+
+#profil ul.mc-links{
+  background-color: #fff;
+  margin: 0.5em 0 1em;
+  padding: 0;
+  list-style: none;
+}
+#profil ul.mc-links li {
+  padding: .5em 1em;
+  clear: both;
+}
+
 
 .mc-user li > div {
   display: inline-block;
@@ -88,7 +124,6 @@
 }
 
 #profil .members .mc-list {
-  max-width: 60em;
   margin: auto;
   background-color: #fefefe;
   padding: 1em;

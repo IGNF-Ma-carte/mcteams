@@ -41,15 +41,22 @@
     <div>
       <ul class="mc-links">
         <li class="member-link">
-          <a href=""></a>
-          <button class="change"><i class="fi-repeat"></i></button><button class="remove"><i class="fi-delete"></button>
+          <label>Lien pour inviter un membre</label> <a href=""></a>
+          <button class="remove" title="supprimer"><i class="fi-delete"></button>
+          <button class="change" title="regénérer"><i class="fi-repeat"></i></button>
         </li>
         <li class="editor-link">
-          <a href=""></a>
-          <button class="change"><i class="fi-repeat"></i></button><button class="remove"><i class="fi-delete"></button>
+          <label>Lien pour inviter un éditeur de carte</label> <a href=""></a>
+          <button class="remove" title="supprimer"><i class="fi-delete"></button>
+          <button class="change" title="regénérer"><i class="fi-repeat"></i></button>
         </li>
         <li class="pattern-link">
-          <input />
+          <label>Motif pour le mail</label> <input type="text" placeholder="pas de motif" />
+          <select>
+            <option value="endwith">fini par</option>
+            <option value="match">contient</option>
+          </select>
+          <button class="button button-colored">Modifier</button>
         </li>
       </ul>
     </div>

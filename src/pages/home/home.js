@@ -180,6 +180,9 @@ page.querySelector('.create button').addEventListener('click', () => {
   })
 })
 
+
+export { showList }
+
 /* DBUG */
 window.team = team
 /**/

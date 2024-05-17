@@ -7,20 +7,42 @@ import ListTable from 'mcutils/api/ListTable';
 import UserInput from 'mcutils/api/UserInput'
 import dialog from 'mcutils/dialog/dialog'
 import _T from 'mcutils/i18n/i18n';
+import helpDialog from 'mcutils/dialog/helpDialog'
 
 import html from './profil-page.html'
 
 const page = pages.add('profil', html, document.querySelector('.connected'))
 
-/* Add list */
+/* Help */
+helpDialog(page.querySelector('.member-link label'), _T('help:memberlinks'), 'Lien pour un membre')
+helpDialog(page.querySelector('.editor-link label'), _T('help:memberlinks'), 'Lien pour un éditeur')
+helpDialog(page.querySelector('.pattern-link label'), _T('help:memberlinks'), 'mailPattern')
+
+/* Membre links */
 const teamLinks = page.querySelector('.mc-links');
+
+function updateLink(type, value) {
+  if (value) {
+    value = document.location.origin
+      + document.location.pathname
+      + '?rejoindre=' + value
+  } else {
+    value = 'pas de lien'
+  }
+  teamLinks.querySelector('.'+type+'-link a').innerText = value
+}
+
 ['member','editor'].forEach(t => {
   function updateLinks(e) {
     if (!e.error) {
-      teamLinks.querySelector('.'+t+'-link a').innerText = e.value || 'pas de lien'
+      updateLink(t, e.value);
     }
     teamLinks.querySelector('.'+t+'-link').classList.remove('loading')
   }
+  teamLinks.querySelector('.'+t+'-link a').addEventListener('click', e => {
+    e.preventDefault()
+  })
+
   teamLinks.querySelector('.'+t+'-link button.change').addEventListener('click', () => {
     teamLinks.querySelector('.'+t+'-link').classList.add('loading')
     api.setTeamLink(team.getId(), t, updateLinks)
@@ -30,15 +52,34 @@ const teamLinks = page.querySelector('.mc-links');
     api.removeTeamLink(team.getId(), t, updateLinks);
   })
 })
-// Uopdate links on change
-team.on('change', () => {
-  if (team.getUserRole() === 'owner') {
-    api.getTeamLinks(team.getId(), e => {
-      teamLinks.querySelector('.member-link a').innerText = e.link_as_member || 'pas de lien'
-      teamLinks.querySelector('.editor-link a').innerText = e.link_as_editor || 'pas de lien'
-      teamLinks.querySelector('.pattern-link input').value = e.mail_pattern || ''
-    })
-  }
+// Mail pattern
+teamLinks.querySelector('.pattern-link button').addEventListener('click', () => {
+  let value = teamLinks.querySelector('.pattern-link input').value;
+  const endWith = (teamLinks.querySelector('.pattern-link select').value === 'endwith') && value;
+  teamLinks.querySelector('.pattern-link').classList.add('loading')
+  api.setTeam(team.getId(), 'mail_pattern', value + (endWith ? '$' : ''), e => {
+    teamLinks.querySelector('.pattern-link').classList.remove('loading')
+  })
+})
+
+// Update links on change
+setTimeout(() => {
+  team.on('change', () => {
+    if (team.getUserRole() === 'owner') {
+      teamLinks.classList.add('loading');
+      api.getTeamLinks(team.getId(), e => {
+        teamLinks.classList.remove('loading');
+        updateLink('member', e.link_as_member);
+        updateLink('editor', e.link_as_editor);
+        teamLinks.querySelector('.pattern-link input').value = e.mail_pattern.replace(/\$$/,'') || ''
+        if (/\$$/.test(e.mail_pattern)) {
+          teamLinks.querySelector('.pattern-link select').value = 'endwith';
+        } else {
+          teamLinks.querySelector('.pattern-link select').value = 'match';
+        }
+      })
+    }
+  })
 })
 
 /* Members List */
