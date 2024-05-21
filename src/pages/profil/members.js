@@ -22,6 +22,9 @@ helpDialog(page.querySelector('.pattern-link label'), _T('help:memberlinks'), 'm
 const teamLinks = page.querySelector('.mc-links');
 
 function updateLink(type, value) {
+  // Disabled
+  teamLinks.querySelector('.'+type+'-link a').setAttribute('aria-disabled', !value)
+  // Text
   if (value) {
     value = document.location.origin
       + document.location.pathname
@@ -39,8 +42,14 @@ function updateLink(type, value) {
     }
     teamLinks.querySelector('.'+t+'-link').classList.remove('loading')
   }
+  // Copy link on click
   teamLinks.querySelector('.'+t+'-link a').addEventListener('click', e => {
-    e.preventDefault()
+    e.preventDefault();
+    try {
+      navigator.clipboard.writeText(e.target.innerText);
+      e.target.nextSibling.className = 'copy-info visible';
+      setTimeout(() => { e.target.nextSibling.className = 'copy-info'; }, 800);
+    } catch(e) {/* ok */}
   })
 
   teamLinks.querySelector('.'+t+'-link button.change').addEventListener('click', () => {

@@ -1,6 +1,6 @@
 #home .create {
   text-align: right;
-  margin-bottom: 1em;
+  margin-bottom: 2em;
 }
 #home article p {
   text-align: initial;
@@ -20,6 +20,21 @@
   height: 4em;
   overflow: hidden;
 }
+#home .mc-list ul li:last-child {
+  margin-bottom: 1.5em;
+}
+#home .mc-list[data-no-invit] h2:first-child {
+  display: none;
+}
+
+#home ul.teamList {
+  margin-bottom: 1.5em;
+}
+
+#home ul.joinTeam li {
+  background-color: #f4f6f8;
+}
+
 #home .mc-list ul li p {
   margin: 0;
   vertical-align: middle;

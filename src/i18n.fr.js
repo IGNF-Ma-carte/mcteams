@@ -10,6 +10,11 @@ Deux type de lien sont disponibles pour ajouter un membre (qui pourra voir les c
 Vous pouvez également ajouter un motif pour limiter aux membres ayant un mail contenant un motif spécifique.
 Par exemple, un motif du type \`@ign.fr\` limitera les membres dont le mail est du type \`xxx@ign.fr\`.
   `,
+  "help:joinList": `# Rejoindre une équipe
+----
+Losque vous êtes invité à participer à une équipe vous devez valider l'invitation. 
+Vous pouvez également refuser si vous n'êtes pas intéressé à participer.
+  `,
   // SAVE
   saveTitle: "Enregistrer",
   save: "Enregistrer",

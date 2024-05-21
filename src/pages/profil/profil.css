@@ -74,8 +74,12 @@
 #profil .mc-links {
   display: none;
 }
-#profil .mc-links a {
-  user-select: all;
+#profil .mc-links a[aria-disabled="true"] {
+  pointer-events: none;
+  color: #999;
+}
+#profil .mc-links a[aria-disabled="true"]:before {
+  display: none;
 }
 [data-team-role="owner"] #profil .mc-links {
   display: block;
@@ -102,7 +106,29 @@
   padding: .5em 1em;
   clear: both;
 }
-
+#profil ul.mc-links li > div {
+  position: relative;
+  display: inline-block;
+}
+#profil ul.mc-links li .copy-info {
+  position: absolute;
+  background-color: rgba(0,0,0,.5);
+  color: #fff;
+  border-radius: 1.3em;
+  font-size: .9em;
+  padding: 0.3em 1em;
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  white-space: nowrap;
+  opacity: 0;
+  pointer-events: none;
+  transition: .2s;
+}
+#profil ul.mc-links li .copy-info.visible {
+  opacity: 1;
+  transform: translate(-50%, -1em);
+}
 
 .mc-user li > div {
   display: inline-block;

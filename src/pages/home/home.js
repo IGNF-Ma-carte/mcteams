@@ -4,21 +4,26 @@ import api from 'mcutils/api/api'
 import _T from 'mcutils/i18n/i18n'
 import pages from 'mcutils/charte/pages';
 import dialog from 'mcutils/dialog/dialog'
+import md2html from 'mcutils/md/md2html';
+import helpDialog from 'mcutils/dialog/helpDialog';
 
 import html from './home-page.html'
 import createDlg from './create-dialog.html'
 
 import 'mcutils/api/ListTable.css'
 import './home.css'
-import md2html from 'mcutils/md/md2html';
 
 const page = pages.add('home', html, document.querySelector('.connected'));
 
-const teamList = page.querySelector('ul[data-role="teams"]')
+const teamList = page.querySelector('ul[data-role="teams"].teamList')
+const joinList = page.querySelector('ul[data-role="teams"].joinTeam')
+
+helpDialog(page.querySelector('.mc-list h2'), _T('help:joinList'), 'Rejoindre une équipe');
 
 // Show user team list
 function showList() {
   teamList.innerHTML = '';
+  joinList.innerHTML = '';
   const me = api.getMe();
   const teams = me ? me.organizations : false;
   if (teams && teams.length) {
@@ -34,6 +39,7 @@ function showList() {
     teams.forEach(o => {
       const li = element.create('LI', {
         className: o.public_id === team.getId() ? 'selected' : '',
+        title: (o.active === false) ? 'rejoindre l\'équipe' : 'sélectionnez cette équipe',
         'data-team': o.public_id,
         click: () => {
           if (o.active !== false) {
@@ -41,7 +47,7 @@ function showList() {
             team.set(o);
             pages.show('equipe');
           } else {
-            dialog.showWait('chargement...')
+            dialog.showWait('Recherche de l\'invitation...')
             api.getTeam(o.public_id, team => {
               // Join the team
               const content = element.create('DIV')
@@ -89,9 +95,8 @@ function showList() {
             })
           } 
         },
-        parent: teamList
+        parent: (o.active === false) ? joinList : teamList
       })
-      if (o.active === false) li.dataset.inactive = '';
       element.create('IMG', {
         src: o.profile_picture || '',
         parent: li
@@ -107,7 +112,11 @@ function showList() {
         parent: li
       })
     });
-  } else {
+  }
+  if (!teamList.querySelector('li')) {
+    teamList.parentNode.dataset.noInvit = '';
+  }
+  if (!teamList.querySelector('li')) {
     element.create('LI', {
       html: '<i>Vous n\'avez pas encore d\'équipe...</i>',
       parent: teamList
