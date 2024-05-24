@@ -80,11 +80,11 @@ setTimeout(() => {
         teamLinks.classList.remove('loading');
         updateLink('member', e.link_as_member);
         updateLink('editor', e.link_as_editor);
-        teamLinks.querySelector('.pattern-link input').value = e.mail_pattern.replace(/\$$/,'') || ''
-        if (/\$$/.test(e.mail_pattern)) {
-          teamLinks.querySelector('.pattern-link select').value = 'endwith';
-        } else {
+        teamLinks.querySelector('.pattern-link input').value = (e.mail_pattern || '').replace(/\$$/,'') || ''
+        if (!/\$$/.test(e.mail_pattern)) {
           teamLinks.querySelector('.pattern-link select').value = 'match';
+        } else {
+          teamLinks.querySelector('.pattern-link select').value = 'endwith';
         }
       })
     }

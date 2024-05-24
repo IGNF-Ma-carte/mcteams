@@ -20,6 +20,8 @@ const joinList = page.querySelector('ul[data-role="teams"].joinTeam')
 
 helpDialog(page.querySelector('.mc-list h2'), _T('help:joinList'), 'Rejoindre une équipe');
 
+const rolesOrder = ['editor', 'owner']
+
 // Show user team list
 function showList() {
   teamList.innerHTML = '';
@@ -27,13 +29,14 @@ function showList() {
   const me = api.getMe();
   const teams = me ? me.organizations : false;
   if (teams && teams.length) {
-    // Sort teams by active / date
+    // Sort teams by role / date
     teams.sort((a,b) => {
-      if (!a.active && b.active) return -1;
-      if (a.active && !b.active) return 1;
-      if (a.updated_at.date < b.updated_at.date) return -1;
-      if (a.updated_at.date > b.updated_at.date) return 1;
-      return 0;
+      const order = rolesOrder.indexOf(b.user_role) - rolesOrder.indexOf(a.user_role);
+      if (!order) {
+        if (a.updated_at.date < b.updated_at.date) return 1;
+        if (a.updated_at.date > b.updated_at.date) return -1;
+      }
+      return order;
     })
     // List of teams
     teams.forEach(o => {
@@ -101,9 +104,17 @@ function showList() {
         src: o.profile_picture || '',
         parent: li
       })
-      element.create('p', {
+      element.create('P', {
         text: o.name,
         class: 'title',
+        parent: li
+      })
+      const date = new Date(o.updated_at.date)
+      const today = new Date()
+      element.create('DIV', {
+        text: (date.getFullYear() != today.getFullYear()) ? date.toLocaleDateString(undefined, { month: 'short', year: 'numeric'}) : date.toLocaleDateString(undefined, { day: 'numeric', month: 'short'}),
+        title: 'dernière mise à jour',
+        class: 'date',
         parent: li
       })
       element.create('DIV', {
@@ -136,6 +147,22 @@ team.on('change', () => {
   }
 })
 api.on('me', showList)
+
+// Search in list
+let tkeyup;
+const searchInput = page.querySelector('input[type="search"]')
+element.addListener(searchInput, ['keyup', 'input'], () => {
+  clearTimeout(tkeyup)
+  tkeyup = setTimeout(() => {
+    teamList.querySelectorAll('P').forEach(elt => {
+      if (new RegExp(searchInput.value, 'i').test(elt.innerText)) {
+        delete elt.parentNode.dataset.hidden
+      } else {
+        elt.parentNode.dataset.hidden = ''
+      }
+    })
+  }, 300)
+})
 
 // No team
 if (!team.getId() && pages.getId() !== 'home') {
@@ -192,6 +219,6 @@ page.querySelector('.create button').addEventListener('click', () => {
 
 export { showList }
 
-/* DBUG */
+/* DEBUG */
 window.team = team
 /**/

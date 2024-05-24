@@ -45,7 +45,16 @@
   max-height: 2.6em;
   overflow: hidden;
 }
-
+#home .mc-list ul li .date {
+  float: right;
+  line-height: 4em;
+}
+#home .mc-list ul li .date:before {
+  content: "\f017";
+  font-family: FontAwesome;
+  display: inline-block;
+  margin-right: .5em;
+}
 #home .mc-list ul li:hover {
   background-color: #eee;
 }
@@ -61,6 +70,20 @@
 }
 #profil .mc-list ul li img {
   max-height: unset;
+}
+
+#home input[type="search"] {
+  width: 100%;
+  padding-left: 2em;
+  margin-bottom: 1em;
+}
+#home .content .fi-search {
+  position: absolute;
+  color: #999;
+  padding: .5rem .5em;
+}
+#home ul li[data-hidden] {
+  display: none;
 }
 
 .mc-list ul li .role {
