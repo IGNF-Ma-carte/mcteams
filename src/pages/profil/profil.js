@@ -27,6 +27,8 @@ function showTeam() {
   content.querySelectorAll('#equipe span').forEach(sp => {
     sp.innerText= '';
   })
+  if (team.isLocked()) content.dataset.locked = '';
+  else delete content.dataset.locked;
   // Get members
   list.clear()
   list.element.dataset.waiting = '';

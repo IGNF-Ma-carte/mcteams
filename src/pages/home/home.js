@@ -100,6 +100,7 @@ function showList() {
         },
         parent: (o.active === false) ? joinList : teamList
       })
+      if (o.locked) li.classList.add('locked');
       element.create('IMG', {
         src: o.profile_picture || '',
         parent: li
