@@ -77,6 +77,11 @@
   padding-left: 2em;
   margin-bottom: 1em;
 }
+#home [data-nosearch="true"] .fi-search,
+#home input[type="search"][aria-hidden="true"] {
+  display: none;
+}
+
 #home .content .fi-search {
   position: absolute;
   color: #999;

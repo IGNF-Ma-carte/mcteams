@@ -125,9 +125,16 @@ function showList() {
       })
     });
   }
-  if (!teamList.querySelector('li')) {
-    teamList.parentNode.dataset.noInvit = '';
+  // Invitation remains
+  if (joinList.querySelector('li')) {
+    delete joinList.parentNode.dataset.noInvit
+  } else {
+    joinList.parentNode.dataset.noInvit = '';
   }
+  // Add a search
+  teamList.previousElementSibling.setAttribute('aria-hidden', (teamList.querySelectorAll('li').length < 5))
+  teamList.parentNode.dataset.nosearch = (teamList.querySelectorAll('li').length < 5)
+  // No team yet
   if (!teamList.querySelector('li')) {
     element.create('LI', {
       html: '<i>Vous n\'avez pas encore d\'équipe...</i>',

@@ -44,7 +44,7 @@ function join() {
         } else if (e.status === 403) {
           dialog.showAlert('Vous n\'êtes pas autorisé à rejoindre cette équipe...')
         } else {
-          dialog.showAlert('Impossible de rejoindre une équipe...')
+          dialog.showAlert('Impossible de rejoindre cette équipe...')
         }
       } else {
         dialog.show({

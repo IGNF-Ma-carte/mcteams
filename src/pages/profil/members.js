@@ -348,6 +348,17 @@ page.querySelector('button.addMember').addEventListener('click', () => {
   sel.value = 'member'
 })
 
+let searchTout;
+// Search
+element.addListener(page.querySelector('.members [type="search"]'),['keyup', 'search'], e => {
+  clearTimeout(searchTout)
+  searchTout = setTimeout(() => {
+    const rex = new RegExp(e.target.value, 'i');
+    list.element.querySelectorAll('li .mc-name').forEach(t => {
+      t.parentNode.setAttribute('aria-hidden', !rex.test(t.innerText));
+    })
+  },300)
+})
 
 export { page, list }
 export { list as listMember }
