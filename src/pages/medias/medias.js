@@ -15,9 +15,9 @@ import './medias.css'
 
 const page = pages.add("medias", html, document.querySelector('.connected'))
 
+let curTeam;
 let mediaSizeLimit;
 let mediaSize = 0;
-let curTeam = team.getId();
 
 team.on('change', () => {
   if (team.getId() != curTeam) {
@@ -27,7 +27,6 @@ team.on('change', () => {
     updateProgressBar(mediaSize, mediaSizeLimit);
     list.showPage();
     list.updateFolders();
-    console.log(team.getId())
   }
 })
 
