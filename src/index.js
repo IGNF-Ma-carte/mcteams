@@ -12,6 +12,7 @@ import './pages/atlas/atlas'
 import './pages/cartes/cartes'
 import './pages/profil/profil'
 import './pages/detail/detail'
+import './pages/medias/medias'
 /*
 */
 import './index.css'

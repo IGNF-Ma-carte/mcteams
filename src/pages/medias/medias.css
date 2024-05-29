@@ -1,0 +1,12 @@
+#medias .used-space{
+  float:right;
+}
+
+#medias .used-space .progress-bar-border{
+  border: 1px solid;
+}
+
+#medias .used-space .progress-bar-border .progress-bar-fill{
+  height:24px;
+  background-color: #3993f3;
+}

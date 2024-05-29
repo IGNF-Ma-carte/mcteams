@@ -2,6 +2,10 @@
   text-transform: capitalize;
 }
 
+#atlas .teamLocked {
+  display: none;
+}
+
 .mc-list-carte .filters .organization,
 .mc-list-carte .mc-organization {
   display: none;
