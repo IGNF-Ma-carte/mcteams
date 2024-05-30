@@ -13,12 +13,12 @@
 
 /* Just for owner */
 #medias .mc-list-head,
-#medias .mc-list-media label,
+#medias .mc-list-media .mc-ul label.ol-ext-check,
 #medias .mc-list-media .li-actions {
   display: none;
 }
 [data-team-role="owner"] #medias .mc-list-head,
-[data-team-role="owner"] #medias .mc-list-media label,
+[data-team-role="owner"] #medias .mc-list-media .mc-ul label.ol-ext-check,
 [data-team-role="owner"] #medias .mc-list-media .li-actions {
   display: block;
 }
