@@ -10,3 +10,15 @@
   height:24px;
   background-color: #3993f3;
 }
+
+/* Just for owner */
+#medias .mc-list-head,
+#medias .mc-list-media label,
+#medias .mc-list-media .li-actions {
+  display: none;
+}
+[data-team-role="owner"] #medias .mc-list-head,
+[data-team-role="owner"] #medias .mc-list-media label,
+[data-team-role="owner"] #medias .mc-list-media .li-actions {
+  display: block;
+}
