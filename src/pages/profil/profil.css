@@ -280,3 +280,17 @@
   top: 50%;
   transform: translate(-50%, -50%);
 }
+
+#profil .mc-links a:before {
+  right: 1.5em;
+}
+#profil .mc-links a:after {
+  content: "\f0ea";
+  color: rgb(9, 22, 37);
+  font-family: FontAwesome;
+  font-size: 1em;
+  font-weight: 400;
+}
+#profil .mc-links a[aria-disabled="true"]:after {
+  display: none;
+}

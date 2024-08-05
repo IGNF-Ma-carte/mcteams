@@ -16,7 +16,7 @@ const page = pages.add('profil', html, document.querySelector('.connected'))
 /* Help */
 helpDialog(page.querySelector('.member-link label'), _T('help:memberlinks'), 'Lien pour un membre')
 helpDialog(page.querySelector('.editor-link label'), _T('help:memberlinks'), 'Lien pour un éditeur')
-helpDialog(page.querySelector('.pattern-link label'), _T('help:memberlinks'), 'mailPattern')
+helpDialog(page.querySelector('.pattern-link label'), _T('help:mailPattern'), 'mailPattern')
 
 /* Membre links */
 const teamLinks = page.querySelector('.mc-links');
