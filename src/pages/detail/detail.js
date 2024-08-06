@@ -184,7 +184,6 @@ page.querySelector('.actions button.delete').addEventListener('click', () => {
  */
 function showCarte(carte, from) {
   currentCarte = carte
-  storyCartes = [];
   pages.show('detail')
   // Title
   page.querySelector('h1.carte').innerText = carte.title
