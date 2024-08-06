@@ -7,9 +7,8 @@ import md2html from 'mcutils/md/md2html';
 import dialog from 'mcutils/dialog/dialog'
 import ListTable from 'mcutils/api/ListTable';
 import { getEditorURL, getViewerURL } from 'mcutils/api/serviceURL';
-import saveCarte from 'mcutils/dialog/saveCarte'
+import saveCarte, { checkStoryShare } from 'mcutils/dialog/saveCarte'
 import { listMember } from '../profil/members'
-import { storyV4}  from 'mcutils/format/version/toV4'
 
 import html from './detail-page.html'
 import './detail.css'
@@ -109,40 +108,6 @@ page.querySelector('button.edit_author').addEventListener('click', () => {
   })
 });
 
-// Check share
-const shareList = {
-  private: 0,
-  public: 1,
-  atlas: 2
-}
-function checkShare(story, cartes) {
-  const share = shareList[story.share];
-  const badMap = []
-  cartes.forEach(c => {
-    if (shareList[c.share] < share) {
-      badMap.push(c)
-    }
-  })
-  if (badMap.length) {
-    dialog.showAlert(
-      'Cette carte contient des cartes qui n\'ont pas le même niveau de partage.<br/>'
-      + 'Elles risquent de ne pas s\'afficher correctement.<br/>'
-      + 'Voulez-vous propager le partage ?',
-      { ok: 'Propager', cancel: 'Annuler'},
-      b => {
-        if (b==='ok') {
-          badMap.forEach(c => {
-            api.updateMap(c.edit_id, { share: story.share }, e => {
-              if (e.error) {
-                dialog.showAlert('Une erreur est survenue.<br/>Opération impossible...');
-              }
-            })
-          })
-        }
-      }
-    )
-  }
-}
 
 // Direct update
 ['active', 'share'].forEach(att => {
@@ -162,22 +127,10 @@ function checkShare(story, cartes) {
         e.target[value] = currentCarte[att]
       } else {
         currentCarte[att] = a[att]
-        // Story cartes
-        if (att === 'share' && currentCarte.type === 'storymap') {
+        // Storymap: check cartes inside
+        if (att === 'share') {
           loading.classList.add('loading')
-          api.getMapFile(currentCarte.view_id, s => {
-            storyV4(s);
-            const cartes = [];
-            s.cartes.forEach(c => {
-              api.getMap(c.id, map => {
-                cartes.push(map)
-                if (cartes.length == s.cartes.length) {
-                  loading.classList.remove('loading')
-                  checkShare(currentCarte, cartes)
-                }
-              }, false)
-            })
-          })
+          checkStoryShare(currentCarte, () => loading.classList.remove('loading'))
         }
       }
     })
