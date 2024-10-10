@@ -12,7 +12,7 @@ import './cartes.css'
 
 function showCartes(type, context) {
   const page = pages.add(type, html, document.querySelector('.connected'))
-  page.querySelector('.breadcrumb li.page') . innerHTML = type
+  page.querySelector('.breadcrumb li.page').classList.add(type)
 
   // Create carte list
   const list = new ListCarte(api, { 

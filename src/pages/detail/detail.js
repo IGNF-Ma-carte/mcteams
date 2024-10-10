@@ -5,6 +5,7 @@ import team from 'mcutils/api/team';
 import pages from 'mcutils/charte/pages.js'
 import md2html from 'mcutils/md/md2html';
 import dialog from 'mcutils/dialog/dialog'
+import { helpData } from 'mcutils/dialog/helpDialog';
 import ListTable from 'mcutils/api/ListTable';
 import { getEditorURL, getViewerURL } from 'mcutils/api/serviceURL';
 import saveCarte, { checkStoryShare } from 'mcutils/dialog/saveCarte'
@@ -14,6 +15,8 @@ import html from './detail-page.html'
 import './detail.css'
 
 const page = pages.add("detail", html, document.querySelector('.connected'))
+
+helpData(page);
 
 // Current carte
 let currentCarte

@@ -1,6 +1,10 @@
 .breadcrumb li.page {
   text-transform: capitalize;
 }
+.breadcrumb li.page.cartes .atlas,
+.breadcrumb li.page.atlas .cartes {
+  display: none;
+}
 
 #atlas .teamLocked {
   display: none;
