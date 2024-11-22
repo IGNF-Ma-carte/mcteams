@@ -6,8 +6,21 @@
   display: none;
 }
 
-#atlas .teamLocked {
+#atlas .teamLocked,
+#atlas [data-role="actions"] {
   display: none;
+}
+
+#cartes [data-role="actions"] {
+  margin: 1em 0;
+}
+#cartes [data-role="actions"] .count {
+  display: inline-block;
+  min-width: 2em;
+  text-align: right;
+}
+#cartes [data-role="actions"] label {
+  margin-right: 0.5em;
 }
 
 .mc-list-carte .filters .organization,
