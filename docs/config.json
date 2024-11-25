@@ -1,4 +1,5 @@
 {
+  "server0": "https://macarte.ign.fr/",
   "server": "https://qlf-macarte.ign.fr/",
   "server1": "https://localhost.ign.fr/macartegpf-api/",
   "server2": "https://macarte.mut-dev.ign.fr/",
