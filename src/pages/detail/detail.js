@@ -188,10 +188,16 @@ page.querySelector('.actions button.delete').addEventListener('click', () => {
 function showCarte(carte, from) {
   currentCarte = carte
   pages.show('detail')
+  page.dataset.context = from;
   // Title
   page.querySelector('h1.carte').innerText = carte.title
   // Breadscrum
-  if (from) page.querySelector('.breadcrumb .cartes a').innerText = from
+  if (from) {
+    const aBack = page.querySelector('.breadcrumb .cartes a')
+    aBack.innerText = from;
+    aBack.href = '#'+from;
+  }
+  page.querySelector('.breadcrumb .current-item').innerText = carte.title
   // Creator
   api.getMap(carte.view_id, e => {
     if (!e.error) {
@@ -247,9 +253,10 @@ function showCarte(carte, from) {
     }
   })
   // Disable for editor
-  page.querySelector('[data-attr="share"]').disabled = !team.isOwner()
-  page.querySelector('[data-attr="active"]').disabled = !team.isOwner()
-  page.querySelector('.actions button.delete').disabled = (carte.share !== 'private')
+  console.log(from)
+  page.querySelector('[data-attr="share"]').disabled = !team.isOwner() || from =='atlas'
+  page.querySelector('[data-attr="active"]').disabled = !team.isOwner() || from =='atlas'
+  page.querySelector('.actions button.delete').disabled = (carte.share !== 'private') || from =='atlas'
 }
 
 // First show > back to team page

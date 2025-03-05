@@ -28,6 +28,7 @@
   display: none;
 }
 
+#atlas .mc-list-carte .li-actions .edit,
 .mc-list-carte .li-actions .edit,
 .mc-list-carte .li-actions .detail {
   display: none;

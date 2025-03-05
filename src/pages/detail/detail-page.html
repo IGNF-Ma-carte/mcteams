@@ -9,9 +9,10 @@
     <li><a class="link-home" href="#">Mes équipes</a></li>
     <li class="current-team"><a href="#equipe"></a></li> 
     <li class="cartes"><a href="#cartes">cartes</a></li> 
+    <li class="current-item"></li>
   </ul>
 </div>
-<div class="actions">
+<div class="actions edition">
   <button class="button button-ghost delete">Supprimer la carte</button>
   <button class="button button-ghost edit-data">Modifier la carte</button>
   <button class="button button-ghost edit">Modifier les informations</button>
@@ -92,7 +93,7 @@
               </td>
               <td>
                 <span data-attr="author"></span>
-                <button class="button button-ghost edit_author">Modifier</button>
+                <button class="button button-ghost edit_author edition">Modifier</button>
               </td>
             </tr>
             <tr>
@@ -103,7 +104,7 @@
                 <a data-attr="view_url" target="_blank"></a>
               </td>
             </tr>
-            <tr>
+            <tr class="edition">
               <td>
                 <b>Lien pour modifier la carte&nbsp;: </b>
               </td>
@@ -111,7 +112,7 @@
                 <a data-attr="edit_url" target="_blank"></a>
               </td>
             </tr>
-            <tr>
+            <tr class="edition">
               <td>
                 <b>ATTENTION </b>
               </td>

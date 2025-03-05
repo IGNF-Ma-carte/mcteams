@@ -67,6 +67,10 @@
   display: block;
 }
 
+#detail[data-context="atlas"] .edition {
+  display: none!important;
+}
+
 .ol-ext-dialog.update-author form {
   width: 30em;
   overflow: visible;
