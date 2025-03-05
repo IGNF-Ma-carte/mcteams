@@ -31,6 +31,8 @@ Seul le propriétaire peut modifier le mode de publication d'une carte (les édi
 Lorsque vous êtes invité à participer à une équipe vous devez valider l'invitation. 
 Vous pouvez également refuser si vous n'êtes pas intéressé à participer.
   `,
+  info_atlas: 'Cartes',
+  info_cartes: 'Mes cartes',
   // SAVE
   saveTitle: "Enregistrer",
   save: "Enregistrer",

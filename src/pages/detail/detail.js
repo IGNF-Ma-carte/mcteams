@@ -194,7 +194,7 @@ function showCarte(carte, from) {
   // Breadscrum
   if (from) {
     const aBack = page.querySelector('.breadcrumb .cartes a')
-    aBack.innerText = from;
+    aBack.innerText = _T('info_'+from);
     aBack.href = '#'+from;
   }
   page.querySelector('.breadcrumb .current-item').innerText = carte.title

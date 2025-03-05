@@ -5,6 +5,7 @@ import pages from 'mcutils/charte/pages.js'
 import ListCarte from 'mcutils/api/ListCarte'
 import { getViewerURL, getEditorURL } from 'mcutils/api/serviceURL';
 import { showCarte } from '../detail/detail';
+import _T from 'mcutils/i18n/i18n';
 
 import 'mcutils/api/ListCarte.responsive.css'
 
@@ -16,7 +17,7 @@ import dialog from 'mcutils/dialog/dialog';
 
 function showCartes(type, context) {
   const page = pages.add(type, html, document.querySelector('.connected'))
-  page.querySelector('.breadcrumb li.page').classList.add(type)
+  page.querySelector('.breadcrumb li.page').innerHTML = _T('info_'+type)
 
   // Create carte list
   const list = new ListCarte(api, { 
