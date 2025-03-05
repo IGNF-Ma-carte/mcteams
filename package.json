@@ -1,6 +1,6 @@
 {
   "name": "mcteam",
-  "version": "4.3.6",
+  "version": "4.4.0",
   "description": "Gestion du compte utilisateur",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
