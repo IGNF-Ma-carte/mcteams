@@ -7,4 +7,4 @@ services:
     container_name: macarte_mesequipes
     restart: always
     ports: 
-      - 8086:8080
+      - 8080:8080
